@@ -3,8 +3,6 @@
 	<name>lpc_spi</name>
 	<comment></comment>
 	<projects>
-		<project>nxp_lpcxpresso_11u14_board_lib</project>
-		<project>lpc_chip_11uxx_lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
