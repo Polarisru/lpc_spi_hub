@@ -10,7 +10,7 @@ static int col_count;
 
 static int ST7066U_Address(int row, int column) {
     if ((row < row_count) && (column < col_count)) {
-        return 0x80 + (row * 0x40) + column;
+    	return 0x80 + ((row / 2) * 0x14) + ((row % 2) * 0x40) + column;
     } else {
         return 0x80;
     }
