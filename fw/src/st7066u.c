@@ -150,12 +150,12 @@ void ST7066U_Init(int rows, int columns) {
 
     ST7066U_WriteCommand(ST7066U_CMD_FUNCTIONSET);
     TIMER_WaitMs(1);
-    ST7066U_WriteCommand(ST7066U_CMD_SETCURSOR);
+    //ST7066U_WriteCommand(ST7066U_CMD_SETCURSOR);
     TIMER_WaitMs(1);
     ST7066U_WriteCommand(ST7066U_CMD_SETDISPLAY);
     TIMER_WaitMs(1);
     ST7066U_WriteCommand(ST7066U_CMD_ENTRYMODE);
     TIMER_WaitMs(1);
-    ST7066U_WriteCommand(ST7066U_CMD_CLEARDISPLAY);
+    //ST7066U_WriteCommand(ST7066U_CMD_CLEARDISPLAY);
     TIMER_WaitMs(1);
 }
