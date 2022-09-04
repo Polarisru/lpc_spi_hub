@@ -1,49 +1,34 @@
-/*
-===============================================================================
- Name        : lpc_spi.c
- Author      : $(author)
- Version     :
- Copyright   : $(copyright)
- Description : main definition
-===============================================================================
-*/
-
-#if defined (__USE_LPCOPEN)
-#if defined(NO_BOARD_LIB)
-#include "chip.h"
-#else
 #include "board.h"
-#endif
-#endif
+#include "buttons.h"
+#include "led.h"
+#include "outputs.h"
+#include "st7066u.h"
+#include "timer.h"
 
 #include <cr_section_macros.h>
-
-// TODO: insert other include files here
-
-// TODO: insert other definitions and declarations here
 
 int main(void) {
 
 #if defined (__USE_LPCOPEN)
     // Read clock settings and update SystemCoreClock variable
     SystemCoreClockUpdate();
-#if !defined(NO_BOARD_LIB)
-    // Set up and initialize all required blocks and
-    // functions related to the board hardware
-    Board_Init();
-    // Set the LED to the state of "On"
-    Board_LED_Set(0, true);
 #endif
-#endif
+	// Set up and initialize all required blocks and
+	// functions related to the board hardware
+	Board_Init();
+	TIMER_Init();
+	BUTTONS_Init();
+	LED_Init();
+	OUTPUTS_Init();
+	ST7066U_Init(4, 20);
+	// Set the LED to the state of "On"
+	LED_Set(LED_BOARD, true);
+	ST7066U_WriteLine("      Hello!", 0);
 
-    // TODO: insert code here
-
-    // Force the counter to be placed into memory
-    volatile static int i = 0 ;
-    // Enter an infinite loop, just incrementing a counter
     while(1) {
-        for (i = 0; i < 100000; i++) {}
-        Board_LED_Toggle(0);
+        //for (int i = 0; i < 200000; i++) {}
+    	TIMER_WaitMs(500);
+        LED_Toggle(LED_BOARD);
     }
     return 0 ;
 }
