@@ -35,14 +35,14 @@ static void ST7066U_StartUp(void) {
     	OUTPUTS_Set(OUTPUTS_LCD_DB5, true);
     	OUTPUTS_Set(OUTPUTS_LCD_DB4, true);
         ST7066U_WriteTime();
-        TIMER_WaitMs(5);
+        TIMER_WaitMs(30);
     }
 	OUTPUTS_Set(OUTPUTS_LCD_DB7, false);
 	OUTPUTS_Set(OUTPUTS_LCD_DB6, false);
 	OUTPUTS_Set(OUTPUTS_LCD_DB5, true);
 	OUTPUTS_Set(OUTPUTS_LCD_DB4, false);
     ST7066U_WriteTime();
-    TIMER_WaitMs(5);
+    TIMER_WaitMs(10);
 }
 
 static void ST7066U_WriteData(char value) {
@@ -144,18 +144,17 @@ void ST7066U_Init(int rows, int columns) {
 	col_count = columns;
 
 	// delay to wait for stable startup
-	TIMER_WaitMs(100);
-
+	TIMER_WaitMs(500);
     ST7066U_StartUp();
 
     ST7066U_WriteCommand(ST7066U_CMD_FUNCTIONSET);
     TIMER_WaitMs(1);
     //ST7066U_WriteCommand(ST7066U_CMD_SETCURSOR);
-    TIMER_WaitMs(1);
+    //TIMER_WaitMs(1);
     ST7066U_WriteCommand(ST7066U_CMD_SETDISPLAY);
     TIMER_WaitMs(1);
     ST7066U_WriteCommand(ST7066U_CMD_ENTRYMODE);
     TIMER_WaitMs(1);
-    //ST7066U_WriteCommand(ST7066U_CMD_CLEARDISPLAY);
+    ST7066U_WriteCommand(ST7066U_CMD_CLEARDISPLAY);
     TIMER_WaitMs(1);
 }

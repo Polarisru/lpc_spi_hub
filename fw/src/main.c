@@ -17,13 +17,14 @@ int main(void) {
 	// functions related to the board hardware
 	Board_Init();
 	TIMER_Init();
-	BUTTONS_Init();
+	//BUTTONS_Init();
 	LED_Init();
 	OUTPUTS_Init();
-	ST7066U_Init(4, 20);
 	// Set the LED to the state of "On"
 	LED_Set(LED_BOARD, true);
-	ST7066U_WriteLine("      Hello!", 0);
+	ST7066U_Init(4, 20);
+	TIMER_WaitMs(20);
+	ST7066U_WriteLine("Hello, world!", 0);
 
     while(1) {
         //for (int i = 0; i < 200000; i++) {}

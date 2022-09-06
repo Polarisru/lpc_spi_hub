@@ -100,7 +100,7 @@ void Board_Debug_Init(void)
 void Board_Init(void)
 {
 	/* Sets up DEBUG UART */
-	DEBUGINIT();
+	//DEBUGINIT();
 
 	/* Initialize GPIO */
 	Chip_GPIO_Init(LPC_GPIO);

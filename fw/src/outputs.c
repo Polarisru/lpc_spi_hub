@@ -23,6 +23,7 @@ void OUTPUTS_Init(void)
 	for (int i = 0; i < OUTPUTS_LAST; i++) {
 		Chip_GPIO_SetPinDIROutput(LPC_GPIO, OUTS[i].port, OUTS[i].pin);
 		Chip_GPIO_SetPinState(LPC_GPIO, OUTS[i].port, OUTS[i].pin, false);
+		Chip_IOCON_PinMuxSet(LPC_IOCON, OUTS[i].port, OUTS[i].pin, IOCON_FUNC0);
 	}
 }
 

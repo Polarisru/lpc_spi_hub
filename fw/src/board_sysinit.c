@@ -147,5 +147,5 @@ void Board_SystemInit(void)
 {
 	/* Setup system clocking and muxing */
 	SystemSetupClocking();
-	SystemSetupMuxing();
+	//SystemSetupMuxing();
 }
