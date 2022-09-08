@@ -7,8 +7,6 @@
 
 #include <cr_section_macros.h>
 
-char str[20];
-
 int main(void) {
 
 #if defined (__USE_LPCOPEN)
@@ -29,16 +27,12 @@ int main(void) {
 	ST7066U_WriteLine("Hello, world #2!", 2);
 	uint8_t counter = 0;
 
+	TIMER_StartMs(500);
     while(1) {
-        //for (int i = 0; i < 200000; i++) {}
-    	TIMER_WaitMs(500);
-        LED_Toggle(LED_BOARD);
-//        str[0] = counter / 100 + 0x30;
-//        str[1] = (counter % 100) / 10 + 0x30;
-//        str[2] = counter % 10 + 0x30;
-//        str[3] = 0;
-//        counter++;
-//        ST7066U_WriteLine(str, 0);
+    	if (TIMER_IsTimeout() == true) {
+    		LED_Toggle(LED_BOARD);
+    		TIMER_StartMs(500);
+    	}
     }
     return 0 ;
 }
