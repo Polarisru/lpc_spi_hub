@@ -44,19 +44,24 @@ void setup() {
 char str1[] = "Test string 1";
 char str2[] = "New test, wait";
 
-void send_str(char str[]) {
-    // take the SS pin low to select the chip:
+void send_byte(uint8_t value) {
+  // take the SS pin low to select the chip:
   digitalWrite(slaveSelectPin, LOW);
-  //  send in the address and value via SPI:
-  SPI.transfer(0xAA);
-  SPI.transfer(0x00);
-  int i = strlen(str);
-  SPI.transfer((uint8_t)i);
-  for (int x = 0; x < i; x++) {
-    SPI.transfer(str[x]);
-  }
+  SPI.transfer(value);
   // take the SS pin high to de-select the chip:
   digitalWrite(slaveSelectPin, HIGH);  
+}
+
+void send_str(char str[]) {
+  //  send in the address and value via SPI:
+  send_byte(0xAA);  // signature
+  int i = strlen(str);
+  send_byte((uint8_t)i);
+  send_byte(0x00);  // cmd code
+  send_byte(0x00);  // op code
+  for (int x = 0; x < i; x++) {
+    send_byte(str[x]);
+  }
 }
 
 void loop() {

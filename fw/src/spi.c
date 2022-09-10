@@ -9,8 +9,7 @@
 
 #define SPI_OFS_CMD			0
 #define SPI_OFS_OP			1
-#define SPI_OFS_LEN			2
-#define SPI_OFS_STRING		3
+#define SPI_OFS_STRING		2
 
 #define SPI_CMD_LCD			0
 
@@ -41,10 +40,10 @@ uint8_t SPI_len;
 void SPI_Init(void)
 {
 	// configure SPI pins
-	//Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 18, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for SCLK */
-	//Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 18, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for CS */
+	Chip_IOCON_PinMuxSet(LPC_IOCON, SPI_SCLK_PORT, SPI_SCLK_PIN, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for SCLK */
+	Chip_IOCON_PinMuxSet(LPC_IOCON, SPI_CS_PORT, SPI_CS_PIN, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for CS */
 	//Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 18, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for MISO */
-	//Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 18, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for MOSI */
+	Chip_IOCON_PinMuxSet(LPC_IOCON, SPI_MOSI_PORT, SPI_MOSI_PIN, IOCON_FUNC1 | IOCON_MODE_INACT); /* PIO0_18 used for MOSI */
 
 	Chip_SSP_Init(LPC_SSP0);
 	Chip_Clock_EnablePeriphClock(SYSCTL_CLOCK_SSP0);
@@ -65,26 +64,22 @@ void SPI_Process(void)
 		if (byte == SPI_START_SIGN) {
 			// new command received
 			SPI_head = 0;
-			SPI_len = 1;
+			SPI_len = 0;
 		} else {
-			SPI_buff[SPI_head++] = byte;
-			if (SPI_head == 1) {
-				// command received
-				switch (SPI_buff[SPI_OFS_CMD]) {
-					case SPI_CMD_LCD:
-						SPI_len += 2;
-						break;
+			if (SPI_len == 0) {
+				SPI_len = byte;
+			} else {
+				SPI_buff[SPI_head++] = byte;
+				if (SPI_head == SPI_len) {
+					// command received
+					if (SPI_buff[SPI_OFS_CMD] == 0) {
+						SPI_buff[SPI_head] = 0;
+						ST7066U_WriteLine((const char*)&SPI_buff[SPI_OFS_STRING], 0);
+					}
+				} else
+				if ((SPI_head > SPI_MAX_LEN) || (SPI_head > SPI_len)) {
+					SPI_head = 0;
 				}
-			} else
-			if (SPI_head == 3) {
-				SPI_len += SPI_buff[SPI_OFS_LEN];
-			} else
-			if (SPI_head == SPI_len) {
-				// command received
-				ST7066U_WriteLine((const char*)&SPI_buff[SPI_OFS_STRING], 0);
-			} else
-			if ((SPI_head > SPI_MAX_LEN) || (SPI_head > SPI_len)) {
-				SPI_head = 0;
 			}
 		}
 	}

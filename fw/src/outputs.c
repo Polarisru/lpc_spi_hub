@@ -3,18 +3,19 @@
 #include "pins.h"
 
 typedef struct {
-	uint32_t port : 8;			/* Pin port */
-	uint32_t pin : 8;			/* Pin number */
+	uint8_t port;			/* Pin port */
+	uint8_t pin;			/* Pin number */
+	uint32_t func;			/* Pin function */
 } OUT_T;
 
 static const OUT_T OUTS[OUTPUTS_LAST] = {
-	{OUT_LCD_DB4_PORT, OUT_LCD_DB4_PIN},
-	{OUT_LCD_DB5_PORT, OUT_LCD_DB5_PIN},
-	{OUT_LCD_DB6_PORT, OUT_LCD_DB6_PIN},
-	{OUT_LCD_DB7_PORT, OUT_LCD_DB7_PIN},
-	{OUT_LCD_EN_PORT, OUT_LCD_EN_PIN},
-	{OUT_LCD_RS_PORT, OUT_LCD_RS_PIN},
-	{OUT_LCD_RW_PORT, OUT_LCD_RW_PIN}
+	{OUT_LCD_DB4_PORT, OUT_LCD_DB4_PIN, IOCON_FUNC1},
+	{OUT_LCD_DB5_PORT, OUT_LCD_DB5_PIN, IOCON_FUNC1},
+	{OUT_LCD_DB6_PORT, OUT_LCD_DB6_PIN, IOCON_FUNC1},
+	{OUT_LCD_DB7_PORT, OUT_LCD_DB7_PIN, IOCON_FUNC1},
+	{OUT_LCD_EN_PORT, OUT_LCD_EN_PIN, IOCON_FUNC0},
+	{OUT_LCD_RS_PORT, OUT_LCD_RS_PIN, IOCON_FUNC0},
+	{OUT_LCD_RW_PORT, OUT_LCD_RW_PIN, IOCON_FUNC0}
 };
 
 /* Initializes board output(s) */
@@ -23,7 +24,7 @@ void OUTPUTS_Init(void)
 	for (int i = 0; i < OUTPUTS_LAST; i++) {
 		Chip_GPIO_SetPinDIROutput(LPC_GPIO, OUTS[i].port, OUTS[i].pin);
 		Chip_GPIO_SetPinState(LPC_GPIO, OUTS[i].port, OUTS[i].pin, false);
-		Chip_IOCON_PinMuxSet(LPC_IOCON, OUTS[i].port, OUTS[i].pin, IOCON_FUNC0);
+		Chip_IOCON_PinMuxSet(LPC_IOCON, OUTS[i].port, OUTS[i].pin, OUTS[i].func);
 	}
 }
 
