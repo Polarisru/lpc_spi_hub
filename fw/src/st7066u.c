@@ -22,7 +22,6 @@ static void ST7066U_Locate(int row, int column) {
 }
 
 static void ST7066U_WriteTime(void) {
-    //TIMER_WaitMs(2);
     OUTPUTS_Set(OUTPUTS_LCD_EN, true);
     TIMER_WaitMs(1);
     OUTPUTS_Set(OUTPUTS_LCD_EN, false);

@@ -27,10 +27,11 @@ int main(void) {
 	ST7066U_Init(4, 20);
 	ST7066U_WriteLine("Hello, world #1!", 0);
 	ST7066U_WriteLine("Hello, world #2!", 2);
+	TIMER_WaitMs(1000);
 
-	TIMER_StartMs(500);
+//	TIMER_StartMs(500);
     while(1) {
-    	SPI_Process();
+    	SPI_ProcessNew();
 //    	if (TIMER_IsTimeout() == true) {
 //    		LED_Toggle(LED_BOARD);
 //    		TIMER_StartMs(500);

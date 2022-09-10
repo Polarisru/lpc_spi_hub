@@ -30,6 +30,7 @@
 // inslude the SPI library:
 #include <SPI.h>
 
+#define NOP __asm__ __volatile__ ("nop\n\t")
 
 // set pin 10 as the slave select for the digital pot:
 const int slaveSelectPin = 10;
@@ -41,8 +42,8 @@ void setup() {
   SPI.begin();
 }
 
-char str1[] = "Test string 1";
-char str2[] = "New test, wait";
+char str1[] = "Test string 1   ";
+char str2[] = "New test, wait  ";
 
 void send_byte(uint8_t value) {
   // take the SS pin low to select the chip:
@@ -55,13 +56,15 @@ void send_byte(uint8_t value) {
 void send_str(char str[]) {
   //  send in the address and value via SPI:
   send_byte(0xAA);  // signature
-  int i = strlen(str);
+  int i = strlen(str) + 3;
   send_byte((uint8_t)i);
   send_byte(0x00);  // cmd code
   send_byte(0x00);  // op code
   for (int x = 0; x < i; x++) {
     send_byte(str[x]);
+    delayMicroseconds(50);
   }
+  send_byte(0x00);  // end of string
 }
 
 void loop() {

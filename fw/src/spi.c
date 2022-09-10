@@ -14,28 +14,49 @@
 #define SPI_CMD_LCD			0
 
 uint8_t SPI_buff[SPI_MAX_LEN];
+uint8_t SPI_cmd[SPI_MAX_LEN];
 uint8_t SPI_head;
 uint8_t SPI_len;
+volatile bool SPI_ready;
 
-//void SSP0_IRQHandler(void)
-//{
-//  uint32_t regValue;
-//
-//  regValue = LPC_SSP0->MIS;
-//  if (regValue & SSPMIS_RORMIS)	/* Receive overrun interrupt */
-//  {
-//	LPC_SSP0->ICR = SSPICR_RORIC;	/* clear interrupt */
-//  }
-//  if (regValue & SSPMIS_RTMIS)	/* Receive timeout interrupt */
-//  {
-//	LPC_SSP0->ICR = SSPICR_RTIC;	/* clear interrupt */
-//  }
-//  if (regValue & SSPMIS_RXMIS)	/* Rx at least half full */
-//  {
-//	/* receive until it's empty */
-//  }
-//  return;
-//}
+void SSP0_IRQHandler(void)
+{
+	uint32_t regValue;
+	uint8_t byte;
+
+	regValue = LPC_SSP0->MIS;
+	if (regValue & SSP_RORMIS)	/* Receive overrun interrupt */
+	{
+		LPC_SSP0->ICR = SSP_RORIC;	/* clear interrupt */
+	}
+	if (regValue & SSP_RTMIS)	/* Receive timeout interrupt */
+	{
+		LPC_SSP0->ICR = SSP_RTIC;	/* clear interrupt */
+	}
+	if (regValue & SSP_RXMIS)	/* Rx at least half full */
+	{
+		byte = (uint8_t)LPC_SSP0->DR;
+		if (byte == SPI_START_SIGN) {
+			// new command received
+			SPI_head = 0;
+			SPI_len = 0;
+			SPI_ready = false;
+		} else {
+			if (SPI_len == 0) {
+				SPI_len = byte;
+			} else {
+				SPI_buff[SPI_head++] = byte;
+				if (SPI_head == SPI_len) {
+					// command received
+					SPI_head = 0;
+					memcpy(SPI_cmd, SPI_buff, SPI_len);
+					SPI_ready = true;
+				}
+			}
+		}
+	}
+	return;
+}
 
 void SPI_Init(void)
 {
@@ -53,6 +74,10 @@ void SPI_Init(void)
 
 	SPI_head = 0;
 	SPI_len = 0;
+	SPI_ready = false;
+
+	LPC_SSP0->IMSC |= SSP_RXIM;
+	NVIC_EnableIRQ(SSP0_IRQn);
 }
 
 void SPI_Process(void)
@@ -72,9 +97,14 @@ void SPI_Process(void)
 				SPI_buff[SPI_head++] = byte;
 				if (SPI_head == SPI_len) {
 					// command received
-					if (SPI_buff[SPI_OFS_CMD] == 0) {
-						SPI_buff[SPI_head] = 0;
-						ST7066U_WriteLine((const char*)&SPI_buff[SPI_OFS_STRING], 0);
+					switch (SPI_buff[SPI_OFS_CMD]) {
+						case SPI_CMD_LCD:
+							SPI_buff[SPI_head] = 0;
+							ST7066U_WriteLine((const char*)&SPI_buff[SPI_OFS_STRING], 0);
+							break;
+						default:
+							// unknown command, ignore
+							break;
 					}
 				} else
 				if ((SPI_head > SPI_MAX_LEN) || (SPI_head > SPI_len)) {
@@ -82,5 +112,22 @@ void SPI_Process(void)
 				}
 			}
 		}
+	}
+}
+
+void SPI_ProcessNew(void)
+{
+	if (SPI_ready == true) {
+		// command received
+		switch (SPI_buff[SPI_OFS_CMD]) {
+			case SPI_CMD_LCD:
+				//SPI_buff[SPI_head] = 0;
+				ST7066U_WriteLine((const char*)&SPI_cmd[SPI_OFS_STRING], 0);
+				break;
+			default:
+				// unknown command, ignore
+				break;
+		}
+		SPI_ready = false;
 	}
 }
