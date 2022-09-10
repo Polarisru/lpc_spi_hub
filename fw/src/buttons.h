@@ -1,6 +1,8 @@
 #ifndef BUTTONS_H_
 #define BUTTONS_H_
 
+#include "defines.h"
+
 enum {
 	BUTTONS_BTN_UP,
 	BUTTONS_BTN_LEFT,

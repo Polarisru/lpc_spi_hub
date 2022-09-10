@@ -62,7 +62,7 @@ void send_str(char str[]) {
   send_byte(0x00);  // op code
   for (int x = 0; x < i; x++) {
     send_byte(str[x]);
-    delayMicroseconds(50);
+    delayMicroseconds(5);
   }
   send_byte(0x00);  // end of string
 }

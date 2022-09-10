@@ -1,5 +1,7 @@
-#include "board.h"
+//#include "board.h"
+#include "backlight.h"
 #include "buttons.h"
+#include "chip.h"
 #include "led.h"
 #include "outputs.h"
 #include "spi.h"
@@ -16,11 +18,13 @@ int main(void) {
 #endif
 	// Set up and initialize all required blocks and
 	// functions related to the board hardware
-	Board_Init();
+	/* Initialize GPIO */
+	Chip_GPIO_Init(LPC_GPIO);
 	TIMER_Init();
-	//BUTTONS_Init();
+	BUTTONS_Init();
 	LED_Init();
 	OUTPUTS_Init();
+	BACKLIGHT_Init();
 	SPI_Init();
 	// Set the LED to the state of "On"
 	LED_Set(LED_BOARD, true);

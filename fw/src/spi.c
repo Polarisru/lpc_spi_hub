@@ -1,15 +1,8 @@
 #include "chip.h"
+#include "cmd.h"
 #include "pins.h"
 #include "spi.h"
 #include "st7066u.h"
-
-#define SPI_START_SIGN		0xAA
-
-#define SPI_MAX_LEN			(128 + 3)
-
-#define SPI_OFS_CMD			0
-#define SPI_OFS_OP			1
-#define SPI_OFS_STRING		2
 
 #define SPI_CMD_LCD			0
 
@@ -25,14 +18,14 @@ void SSP0_IRQHandler(void)
 	uint8_t byte;
 
 	regValue = LPC_SSP0->MIS;
-	if (regValue & SSP_RORMIS)	/* Receive overrun interrupt */
-	{
-		LPC_SSP0->ICR = SSP_RORIC;	/* clear interrupt */
-	}
-	if (regValue & SSP_RTMIS)	/* Receive timeout interrupt */
-	{
-		LPC_SSP0->ICR = SSP_RTIC;	/* clear interrupt */
-	}
+//	if (regValue & SSP_RORMIS)	/* Receive overrun interrupt */
+//	{
+//		LPC_SSP0->ICR = SSP_RORIC;	/* clear interrupt */
+//	}
+//	if (regValue & SSP_RTMIS)	/* Receive timeout interrupt */
+//	{
+//		LPC_SSP0->ICR = SSP_RTIC;	/* clear interrupt */
+//	}
 	if (regValue & SSP_RXMIS)	/* Rx at least half full */
 	{
 		byte = (uint8_t)LPC_SSP0->DR;
@@ -113,6 +106,11 @@ void SPI_Process(void)
 			}
 		}
 	}
+}
+
+void SPI_SetData(uint8_t tx_data)
+{
+	Chip_SSP_SendFrame(LPC_SSP0, (uint16_t)tx_data);
 }
 
 void SPI_ProcessNew(void)
