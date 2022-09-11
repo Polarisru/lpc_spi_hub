@@ -2,6 +2,7 @@
 #include "backlight.h"
 #include "buttons.h"
 #include "chip.h"
+#include "cmd.h"
 #include "led.h"
 #include "outputs.h"
 #include "spi.h"
@@ -35,11 +36,12 @@ int main(void) {
 
 //	TIMER_StartMs(500);
     while(1) {
-    	SPI_ProcessNew();
-//    	if (TIMER_IsTimeout() == true) {
-//    		LED_Toggle(LED_BOARD);
-//    		TIMER_StartMs(500);
-//    	}
+    	//SPI_ProcessNew();
+    	CMD_Process();
+    	if (TIMER_IsTimeout() == true) {
+    		LED_Toggle(LED_BOARD);
+    		TIMER_StartMs(500);
+    	}
     }
     return 0 ;
 }

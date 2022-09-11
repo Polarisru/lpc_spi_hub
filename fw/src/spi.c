@@ -18,32 +18,35 @@ void SSP0_IRQHandler(void)
 	uint8_t byte;
 
 	regValue = LPC_SSP0->MIS;
-//	if (regValue & SSP_RORMIS)	/* Receive overrun interrupt */
-//	{
-//		LPC_SSP0->ICR = SSP_RORIC;	/* clear interrupt */
-//	}
-//	if (regValue & SSP_RTMIS)	/* Receive timeout interrupt */
-//	{
-//		LPC_SSP0->ICR = SSP_RTIC;	/* clear interrupt */
-//	}
+	if (regValue & SSP_RORMIS)	/* Receive overrun interrupt */
+	{
+		LPC_SSP0->ICR = SSP_RORIC;	/* clear interrupt */
+	}
+	if (regValue & SSP_RTMIS)	/* Receive timeout interrupt */
+	{
+		LPC_SSP0->ICR = SSP_RTIC;	/* clear interrupt */
+	}
 	if (regValue & SSP_RXMIS)	/* Rx at least half full */
 	{
-		byte = (uint8_t)LPC_SSP0->DR;
-		if (byte == SPI_START_SIGN) {
-			// new command received
-			SPI_head = 0;
-			SPI_len = 0;
-			SPI_ready = false;
-		} else {
-			if (SPI_len == 0) {
-				SPI_len = byte;
+		if (LPC_SSP0->SR & SSP_STAT_RNE) {
+			byte = (uint8_t)LPC_SSP0->DR;
+			if (byte == SPI_START_SIGN) {
+				// new command received
+				SPI_head = 0;
+				SPI_len = 0;
+				//SPI_ready = false;
 			} else {
-				SPI_buff[SPI_head++] = byte;
-				if (SPI_head == SPI_len) {
-					// command received
-					SPI_head = 0;
-					memcpy(SPI_cmd, SPI_buff, SPI_len);
-					SPI_ready = true;
+				if (SPI_len == 0) {
+					SPI_len = byte;
+				} else {
+					SPI_buff[SPI_head++] = byte;
+					if (SPI_head >= SPI_len) {
+						// command received
+						SPI_head = 0;
+						//memcpy(SPI_cmd, SPI_buff, SPI_len);
+						//SPI_ready = true;
+						CMD_SetReady(SPI_buff, SPI_len);
+					}
 				}
 			}
 		}
@@ -63,12 +66,14 @@ void SPI_Init(void)
 	Chip_Clock_EnablePeriphClock(SYSCTL_CLOCK_SSP0);
 	Chip_SSP_SetFormat(LPC_SSP0, SSP_BITS_8, SSP_FRAMEFORMAT_SPI, SSP_CLOCK_MODE0);
 	Chip_SSP_Set_Mode(LPC_SSP0, SSP_MODE_SLAVE);
+	Chip_SSP_SetClockRate(LPC_SSP0, 1, 2);
 	Chip_SSP_Enable(LPC_SSP0);
 
 	SPI_head = 0;
 	SPI_len = 0;
 	SPI_ready = false;
 
+	// set interrupt
 	LPC_SSP0->IMSC |= SSP_RXIM;
 	NVIC_EnableIRQ(SSP0_IRQn);
 }
@@ -121,6 +126,7 @@ void SPI_ProcessNew(void)
 			case SPI_CMD_LCD:
 				//SPI_buff[SPI_head] = 0;
 				ST7066U_WriteLine((const char*)&SPI_cmd[SPI_OFS_STRING], 0);
+				memset(SPI_cmd, 0, SPI_MAX_LEN);
 				break;
 			default:
 				// unknown command, ignore

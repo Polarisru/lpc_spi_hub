@@ -10,12 +10,13 @@
 #define CMD_LEDS		2
 #define CMD_BACKLIGHT	3
 
-static bool CMD_ready;
+static volatile bool CMD_ready = false;
 static uint8_t CMD_buff[128];
 
-void CMD_SetReady(bool on)
+void CMD_SetReady(uint8_t *data, uint8_t len)
 {
-	CMD_ready = on;
+	memcpy(CMD_buff, data, len);
+	CMD_ready = true;
 }
 
 void CMD_Process(void)

@@ -28,18 +28,24 @@
 
 
 // inslude the SPI library:
-#include <SPI.h>
+//#include <SPI.h>
 
 #define NOP __asm__ __volatile__ ("nop\n\t")
 
 // set pin 10 as the slave select for the digital pot:
 const int slaveSelectPin = 10;
+const int mosiPin = 11;
+const int sclkPin = 13;
 
 void setup() {
   // set the slaveSelectPin as an output:
   pinMode(slaveSelectPin, OUTPUT);
+  digitalWrite(sclkPin, LOW);
+  digitalWrite(mosiPin, LOW);
+  pinMode(mosiPin, OUTPUT);
+  pinMode(sclkPin, OUTPUT);
   // initialize SPI:
-  SPI.begin();
+  //SPI.begin();
 }
 
 char str1[] = "Test string 1   ";
@@ -48,7 +54,18 @@ char str2[] = "New test, wait  ";
 void send_byte(uint8_t value) {
   // take the SS pin low to select the chip:
   digitalWrite(slaveSelectPin, LOW);
-  SPI.transfer(value);
+  //SPI.transfer(value);
+  for (int i = 0; i < 8; i++) {
+    if (value & 0x80)
+      digitalWrite(mosiPin, HIGH);
+    else
+      digitalWrite(mosiPin, LOW);
+    digitalWrite(sclkPin, HIGH);
+    delayMicroseconds(1);
+    digitalWrite(sclkPin, LOW);    
+    value <<= 1;
+  }
+  digitalWrite(mosiPin, LOW);
   // take the SS pin high to de-select the chip:
   digitalWrite(slaveSelectPin, HIGH);  
 }
