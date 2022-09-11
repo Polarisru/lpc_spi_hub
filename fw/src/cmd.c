@@ -16,6 +16,7 @@ static uint8_t CMD_buff[128];
 void CMD_SetReady(uint8_t *data, uint8_t len)
 {
 	memcpy(CMD_buff, data, len);
+	CMD_buff[len] = 0;
 	CMD_ready = true;
 }
 
