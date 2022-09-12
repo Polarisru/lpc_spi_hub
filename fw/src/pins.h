@@ -20,6 +20,7 @@
 #define OUT_LCD_RS_PORT		1//0
 #define SPI_CS_PORT			0
 #define SPI_MOSI_PORT		0
+#define SPI_MISO_PORT		0
 #define SPI_SCLK_PORT		1
 #define BACKLIGHT_PORT		0
 
@@ -42,6 +43,7 @@
 #define OUT_LCD_RS_PIN		20//4
 #define SPI_CS_PIN			2
 #define SPI_MOSI_PIN		9
+#define SPI_MISO_PIN		8
 #define SPI_SCLK_PIN		29
 #define BACKLIGHT_PIN		16
 
