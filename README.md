@@ -44,8 +44,14 @@ Operation code is a lower nibble of the byte (bits 3..0).
 | 0b0002  | Write line |
 | 0b0002  | Write at row/column |
 
-Data byte contents row and column number for addressing the LCD output.
+First data byte contents row and column number for addressing the LCD output.
 
 | Bit no. | 7 | 6..5 | 4..0 |
 |---------|:-:|:----:|:----:|
 | Meaning | Reserved | Row index<br>(0..3) | Column index<br>(0..19) |
+
+### Packet example for "Update the display" command
+
+| Byte offset | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|----------|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+| Value | 0xAA | 0x06<br>(5 bytes + Cmd.code) | 0x02<br>Write line |  0x00<br>Line 0 | 0x54 ('T') | 0x65 ('e') | 0x73 ('s') | 0x74 ('t') |

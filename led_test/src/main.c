@@ -40,7 +40,7 @@ int main(void)
     SPI_SetPwm(1);
     TIMER_DelayMs(1000);
     //SPI_SetLeds(0x01);
-    SPI_SetPwm(9);
+    SPI_SetPwm(14);
     TIMER_DelayMs(1000);
   }
 }
