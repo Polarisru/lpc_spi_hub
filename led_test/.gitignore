@@ -1,0 +1,7 @@
+obj/
+bin/
+*.dbg
+*.dep
+*.bak
+*.elay
+*.depend

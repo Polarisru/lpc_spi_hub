@@ -1,0 +1,59 @@
+#include "driver_clk.h"
+
+/** \brief Configure clock parameters, configuration is in driver_clk.h
+ *
+ * \return void
+ *
+ */
+void CLK_Init(void)
+{
+  /**< Set flash wait states to maximum for 48 MHz operation */
+  NVMCTRL->CTRLB.reg = NVMCTRL_CTRLB_RWS(2) | NVMCTRL_CTRLB_MANW;
+  MCLK->CPUDIV.reg = MCLK_CPUDIV_CPUDIV(MCLK_CPUDIV_CPUDIV_DIV1_Val);
+
+#if CONF_XOSC_CONFIG == 1
+  OSCCTRL->XOSCCTRL.reg = OSCCTRL_XOSCCTRL_STARTUP(CONF_XOSC_STARTUP) | (0 << OSCCTRL_XOSCCTRL_AMPGC_Pos)
+          | OSCCTRL_XOSCCTRL_GAIN(CONF_XOSC_GAIN) | (CONF_XOSC_RUNSTDBY << OSCCTRL_XOSCCTRL_RUNSTDBY_Pos)
+          | (CONF_XOSC_SWBEN << OSCCTRL_XOSCCTRL_SWBEN_Pos) | (CONF_XOSC_CFDEN << OSCCTRL_XOSCCTRL_CFDEN_Pos)
+          | (CONF_XOSC_XTALEN << OSCCTRL_XOSCCTRL_XTALEN_Pos) | (CONF_XOSC_ENABLE << OSCCTRL_XOSCCTRL_ENABLE_Pos);
+#endif
+#if CONF_OSC48M_CONFIG == 1
+  OSCCTRL->OSC48MCTRL.reg = (CONF_OSC48M_RUNSTDBY << OSCCTRL_OSC48MCTRL_RUNSTDBY_Pos)
+                          | (CONF_OSC48M_ENABLE << OSCCTRL_OSC48MCTRL_ENABLE_Pos);
+  OSCCTRL->OSC48MDIV.reg = OSCCTRL_OSC48MDIV_DIV(CONF_OSC48M_DIV);
+  OSCCTRL->OSC48MSTUP.reg = OSCCTRL_OSC48MSTUP_STARTUP(CONF_OSC48M_STARTUP);
+  while (OSCCTRL->OSC48MSYNCBUSY.reg > 0U) {}
+#endif
+
+#if CONF_XOSC_CONFIG == 1
+#if CONF_XOSC_ENABLE == 1
+  while (OSCCTRL->STATUS.bit.XOSCRDY == 0U) {}
+#endif
+#if CONF_XOSC_AMPGC == 1
+  OSCCTRL->XOSCCTRL.bit.AMPGC = 1;
+#endif
+#if CONF_XOSC_ONDEMAND == 1
+  OSCCTRL->XOSCCTRL.bit.ONDEMAND = 1;
+#endif
+#endif
+
+#if CONF_OSC48M_CONFIG == 1
+#if CONF_OSC48M_ENABLE == 1
+  while (OSCCTRL->STATUS.bit.OSC48MRDY == 0U) {}
+#endif
+#if CONF_OSC48M_ONDEMAND == 1
+  OSCCTRL->OSC48MCTRL.bit.ONDEMAND = 1;
+#endif
+#endif
+
+#if CONF_OSC48M_CONFIG == 1
+  /**< Enable GCLK0 as main clock for the whole system */
+  GCLK->GENCTRL[0].reg = GCLK_GENCTRL_DIV(1) | (1 << GCLK_GENCTRL_GENEN_Pos) | GCLK_GENCTRL_SRC_OSC48M;
+  while ((GCLK->SYNCBUSY.reg & GCLK_SYNCBUSY_MASK) > 0U) {}
+#endif
+#if CONF_XOSC_CONFIG == 1
+  /**< External oscillator is used as high-precision frequency source */
+  GCLK->GENCTRL[2].reg = GCLK_GENCTRL_DIV(1) | (1 << GCLK_GENCTRL_GENEN_Pos) | GCLK_GENCTRL_SRC_XOSC;
+  while ((GCLK->SYNCBUSY.reg & GCLK_SYNCBUSY_MASK) > 0U) {}
+#endif
+}

@@ -38,10 +38,10 @@ int main(void) {
     while(1) {
     	//SPI_ProcessNew();
     	CMD_Process();
-    	if (TIMER_IsTimeout() == true) {
-    		LED_Toggle(LED_BOARD);
-    		TIMER_StartMs(500);
-    	}
+//    	if (TIMER_IsTimeout() == true) {
+//    		LED_Toggle(LED_BOARD);
+//    		TIMER_StartMs(500);
+//    	}
     }
     return 0 ;
 }

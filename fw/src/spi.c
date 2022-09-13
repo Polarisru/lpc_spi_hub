@@ -78,60 +78,7 @@ void SPI_Init(void)
 	NVIC_EnableIRQ(SSP0_IRQn);
 }
 
-//void SPI_Process(void)
-//{
-//	uint8_t byte;
-//	if (LPC_SSP0->SR & SSP_STAT_RNE) {
-//		// SPI receive buffer is not empty
-//		byte = (uint8_t)LPC_SSP0->DR;
-//		if (byte == SPI_START_SIGN) {
-//			// new command received
-//			SPI_head = 0;
-//			SPI_len = 0;
-//		} else {
-//			if (SPI_len == 0) {
-//				SPI_len = byte;
-//			} else {
-//				SPI_buff[SPI_head++] = byte;
-//				if (SPI_head == SPI_len) {
-//					// command received
-//					switch (SPI_buff[SPI_OFS_CMD]) {
-//						case SPI_CMD_LCD:
-//							SPI_buff[SPI_head] = 0;
-//							ST7066U_WriteLine((const char*)&SPI_buff[SPI_OFS_STRING], 0);
-//							break;
-//						default:
-//							// unknown command, ignore
-//							break;
-//					}
-//				} else
-//				if ((SPI_head > SPI_MAX_LEN) || (SPI_head > SPI_len)) {
-//					SPI_head = 0;
-//				}
-//			}
-//		}
-//	}
-//}
-
 void SPI_SetData(uint8_t tx_data)
 {
 	Chip_SSP_SendFrame(LPC_SSP0, (uint16_t)tx_data);
 }
-
-//void SPI_ProcessNew(void)
-//{
-//	if (SPI_ready == true) {
-//		// command received
-//		switch (SPI_buff[SPI_OFS_CMD]) {
-//			case SPI_CMD_LCD:
-//				//SPI_buff[SPI_head] = 0;
-//				ST7066U_WriteLine((const char*)&SPI_cmd[SPI_OFS_STRING], 0);
-//				memset(SPI_cmd, 0, SPI_MAX_LEN);
-//				break;
-//			default:
-//				// unknown command, ignore
-//				break;
-//		}
-//		SPI_ready = false;
-//	}
-//}
