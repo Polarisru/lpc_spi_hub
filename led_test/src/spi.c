@@ -85,10 +85,10 @@ void SPI_ClearLcd(void)
 
 uint8_t SPI_GetButtons(void)
 {
-  SPI_SendByte(SPI_PREAMBLE);  // signature
-  SPI_SendByte(0x01);  // length
-  SPI_SendByte(0x10);  // cmd+op code
-  return SPI_GetByte(SPI_DUMMY_BYTE);
+  //SPI_SendByte(SPI_PREAMBLE);  // signature
+  //SPI_SendByte(0x01);  // length
+  //SPI_SendByte(0x10);  // cmd+op code
+  return SPI_GetByte(SPI_PREAMBLE);
 }
 
 void SPI_SetLeds(uint8_t value)
@@ -114,6 +114,6 @@ void SPI_Init(void)
 	GPIO_ClearPin(SPI_MOSI_PORT, SPI_MOSI_PIN);
   GPIO_SetDir(SPI_CS_PORT, SPI_CS_PIN, true);
 	GPIO_ClearPin(SPI_CS_PORT, SPI_CS_PIN);
-  GPIO_SetDir(SPI_MISO_PORT, SPI_MISO_PIN, true);
+  GPIO_SetDir(SPI_MISO_PORT, SPI_MISO_PIN, false);
 }
 

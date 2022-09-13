@@ -4,13 +4,9 @@
 #include "spi.h"
 #include "st7066u.h"
 
-//#define SPI_CMD_LCD			0
-
 uint8_t SPI_buff[SPI_MAX_LEN];
-//uint8_t SPI_cmd[SPI_MAX_LEN];
 uint8_t SPI_head;
 uint8_t SPI_len;
-//volatile bool SPI_ready;
 
 void SSP0_IRQHandler(void)
 {
@@ -34,7 +30,6 @@ void SSP0_IRQHandler(void)
 				// new command received
 				SPI_head = 0;
 				SPI_len = 0;
-				//SPI_ready = false;
 			} else {
 				if (SPI_len == 0) {
 					SPI_len = byte;
@@ -43,8 +38,6 @@ void SSP0_IRQHandler(void)
 					if (SPI_head >= SPI_len) {
 						// command received
 						SPI_head = 0;
-						//memcpy(SPI_cmd, SPI_buff, SPI_len);
-						//SPI_ready = true;
 						CMD_SetReady(SPI_buff, SPI_len);
 					}
 				}
@@ -71,7 +64,6 @@ void SPI_Init(void)
 
 	SPI_head = 0;
 	SPI_len = 0;
-	//SPI_ready = false;
 
 	// set interrupt
 	LPC_SSP0->IMSC |= SSP_RXIM;

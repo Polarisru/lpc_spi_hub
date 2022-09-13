@@ -9,7 +9,5 @@
 
 void SPI_Init(void);
 void SPI_SetData(uint8_t tx_data);
-//void SPI_Process(void);
-//void SPI_ProcessNew(void);
 
 #endif /* SPI_H_ */

@@ -12,7 +12,6 @@
 #include <cr_section_macros.h>
 
 int main(void) {
-
 #if defined (__USE_LPCOPEN)
     // Read clock settings and update SystemCoreClock variable
     SystemCoreClockUpdate();
@@ -36,8 +35,8 @@ int main(void) {
 
 //	TIMER_StartMs(500);
     while(1) {
-    	//SPI_ProcessNew();
     	CMD_Process();
+    	SPI_SetData(BUTTONS_GetStatus());
 //    	if (TIMER_IsTimeout() == true) {
 //    		LED_Toggle(LED_BOARD);
 //    		TIMER_StartMs(500);

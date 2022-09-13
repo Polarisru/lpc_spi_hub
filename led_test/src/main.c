@@ -24,23 +24,24 @@ int main(void)
 
   while (1)
   {
-    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
-    SPI_SendString(str1);
-    TIMER_DelayMs(1000);
-    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
-    SPI_SendString(str2);
-    TIMER_DelayMs(1000);
-    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
+//    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
+//    SPI_SendString(str1);
+//    TIMER_DelayMs(1000);
+//    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
+//    SPI_SendString(str2);
+//    TIMER_DelayMs(1000);
+//    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
     //SPI_ClearLcd();
+    GPIO_TogglePin(LED_BOARD_PORT, LED_BOARD_PIN);
     sprintf(str3, "Button: 0x%02X    ", SPI_GetButtons());
     TIMER_DelayMs(10);
     SPI_SendString(str3);
-    TIMER_DelayMs(1000);
+    TIMER_DelayMs(100);
     //SPI_SetLeds(0x00);
-    SPI_SetPwm(1);
-    TIMER_DelayMs(1000);
+//    SPI_SetPwm(1);
+//    TIMER_DelayMs(1000);
     //SPI_SetLeds(0x01);
-    SPI_SetPwm(14);
-    TIMER_DelayMs(1000);
+//    SPI_SetPwm(14);
+//    TIMER_DelayMs(1000);
   }
 }
