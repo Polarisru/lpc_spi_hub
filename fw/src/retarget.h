@@ -10,7 +10,7 @@
  * DEBUG_SEMIHOSTING is not defined, then output is redirected via
  * the UART. If DEBUG_SEMIHOSTING is defined, then output will be
  * attempted to be redirected via semihosting. If the UART method
- * is used, then the Board_UARTPutChar and Board_UARTGetChar
+ * is used, then the DEBUG_UARTPutChar and DEBUG_UARTGetChar
  * functions must be defined to be used by this driver and the UART
  * must already be initialized to the correct settings.
  *
@@ -42,7 +42,7 @@
  * this code.
  */
 
-#include "board.h"
+#include "debug.h"
 
 /* Keil (Realview) support */
 #if defined(__CC_ARM)
@@ -69,9 +69,9 @@ void _ttywrch(int ch)
 }
 
 #else
-static INLINE void BoardOutChar(char ch)
+static INLINE void DebugOutChar(char ch)
 {
-	Board_UARTPutChar(ch);
+	DEBUG_UARTPutChar(ch);
 }
 
 #endif /* defined(DEBUG_SEMIHOSTING) */
@@ -96,7 +96,7 @@ int fputc(int c, FILE *f)
 #if defined(DEBUG_SEMIHOSTING)
 	_ttywrch(c);
 #else
-	BoardOutChar((char) c);
+	DebugOutChar((char) c);
 #endif
 #endif
 	return 0;
@@ -105,7 +105,7 @@ int fputc(int c, FILE *f)
 int fgetc(FILE *f)
 {
 #if defined(DEBUG_ENABLE) && !defined(DEBUG_SEMIHOSTING)
-	return Board_UARTGetChar();
+	return DEBUG_UARTGetChar();
 #else
 	return 0;
 #endif
@@ -186,7 +186,7 @@ size_t __write(int handle, const unsigned char *buffer, size_t size)
 	}
 
 	for ( /* Empty */; size != 0; --size) {
-		Board_UARTPutChar(*buffer++);
+		DEBUG_UARTPutChar(*buffer++);
 		++nChars;
 	}
 
@@ -226,7 +226,7 @@ int WRITEFUNC(int iFileHandle, char *pcBuffer, int iLength)
 #if defined(DEBUG_ENABLE)
 	unsigned int i;
 	for (i = 0; i < iLength; i++) {
-		Board_UARTPutChar(pcBuffer[i]);
+		DEBUG_UARTPutChar(pcBuffer[i]);
 	}
 #endif
 
@@ -240,7 +240,7 @@ int WRITEFUNC(int iFileHandle, char *pcBuffer, int iLength)
 int READFUNC(void)
 {
 #if defined(DEBUG_ENABLE)
-	char c = Board_UARTGetChar();
+	char c = DEBUG_UARTGetChar();
 	return (int) c;
 
 #else

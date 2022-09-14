@@ -5,28 +5,6 @@
 #include "spi.h"
 #include "st7066u.h"
 
-#define CMD_LCD				0
-#define CMD_BACKLIGHT		1
-#define CMD_LEDS			2
-#define CMD_BUTTONS			3
-
-#define CMD_LCD_OP_CLEAR	0
-#define CMD_LCD_OP_WHOLE	1
-#define CMD_LCD_OP_LINE		2
-#define CMD_LCD_OP_ADDR		3
-
-#define CMD_OFFS_CMD		0
-#define CMD_OFFS_DATA		1
-#define CMD_OFFS_STRING		2
-
-#define CMD_BYTE_OFFS		4
-#define CMD_OP_MASK			0x0F
-
-#define CMD_LCD_OFFS_COL	0
-#define CMD_LCD_OFFS_ROW	5
-#define CMD_LCD_MASK_COL	0x1F
-#define CMD_LCD_MASK_ROW	0x03
-
 static volatile bool CMD_ready = false;
 static uint8_t CMD_buff[128];
 
@@ -66,9 +44,10 @@ void CMD_Process(void)
 						break;
 				}
 				break;
-//			case CMD_BUTTONS:
-//				SPI_SetData(BUTTONS_GetStatus());
-//				break;
+			case CMD_BACKLIGHT:
+				value = CMD_buff[CMD_OFFS_CMD] & CMD_OP_MASK;
+				BACKLIGHT_SetValue(value);
+				break;
 			case CMD_LEDS:
 				value = CMD_buff[CMD_OFFS_DATA];
 				for (int i = 0; i < LED_LAST; i++) {
@@ -76,9 +55,8 @@ void CMD_Process(void)
 					value >>= 1;
 				}
 				break;
-			case CMD_BACKLIGHT:
-				value = CMD_buff[CMD_OFFS_CMD] & CMD_OP_MASK;
-				BACKLIGHT_SetValue(value);
+			case CMD_BUTTONS:
+				SPI_SetData(BUTTONS_GetStatus());
 				break;
 			default:
 				// unknown command, ignore

@@ -8,6 +8,11 @@ uint8_t SPI_buff[SPI_MAX_LEN];
 uint8_t SPI_head;
 uint8_t SPI_len;
 
+void SPI_SetData(uint8_t tx_data)
+{
+	Chip_SSP_SendFrame(LPC_SSP0, (uint16_t)tx_data);
+}
+
 void SSP0_IRQHandler(void)
 {
 	uint32_t regValue;
@@ -26,10 +31,11 @@ void SSP0_IRQHandler(void)
 	{
 		if (LPC_SSP0->SR & SSP_STAT_RNE) {
 			byte = (uint8_t)LPC_SSP0->DR;
-			if (byte == SPI_START_SIGN) {
+			if (byte == CMD_START_SIGN) {
 				// new command received
 				SPI_head = 0;
 				SPI_len = 0;
+				SPI_SetData(0);
 			} else {
 				if (SPI_len == 0) {
 					SPI_len = byte;
@@ -68,9 +74,4 @@ void SPI_Init(void)
 	// set interrupt
 	LPC_SSP0->IMSC |= SSP_RXIM;
 	NVIC_EnableIRQ(SSP0_IRQn);
-}
-
-void SPI_SetData(uint8_t tx_data)
-{
-	Chip_SSP_SendFrame(LPC_SSP0, (uint16_t)tx_data);
 }
