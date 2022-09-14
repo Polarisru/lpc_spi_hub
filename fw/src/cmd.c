@@ -6,9 +6,9 @@
 #include "st7066u.h"
 
 #define CMD_LCD				0
-#define CMD_BUTTONS			1
+#define CMD_BACKLIGHT		1
 #define CMD_LEDS			2
-#define CMD_BACKLIGHT		3
+#define CMD_BUTTONS			3
 
 #define CMD_LCD_OP_CLEAR	0
 #define CMD_LCD_OP_WHOLE	1
@@ -66,9 +66,9 @@ void CMD_Process(void)
 						break;
 				}
 				break;
-			case CMD_BUTTONS:
-				SPI_SetData(BUTTONS_GetStatus());
-				break;
+//			case CMD_BUTTONS:
+//				SPI_SetData(BUTTONS_GetStatus());
+//				break;
 			case CMD_LEDS:
 				value = CMD_buff[CMD_OFFS_DATA];
 				for (int i = 0; i < LED_LAST; i++) {

@@ -103,7 +103,7 @@ void SPI_SetPwm(uint8_t value)
 {
   SPI_SendByte(SPI_PREAMBLE);  // signature
   SPI_SendByte(0x01);  // length
-  SPI_SendByte(0x30 + (value & 0x0F));  // cmd+op code
+  SPI_SendByte(0x10 + (value & 0x0F));  // cmd+op code
 }
 
 void SPI_Init(void)
