@@ -1,5 +1,6 @@
 #include "chip.h"
 #include "cmd.h"
+#include "global.h"
 #include "pins.h"
 #include "spi.h"
 #include "st7066u.h"
@@ -7,10 +8,12 @@
 uint8_t SPI_buff[SPI_MAX_LEN];
 uint8_t SPI_head;
 uint8_t SPI_len;
+bool SPI_start;
 
 void SPI_SetData(uint8_t tx_data)
 {
-	Chip_SSP_SendFrame(LPC_SSP0, (uint16_t)tx_data);
+	if (Chip_SSP_GetStatus(LPC_SSP0, SSP_STAT_TFE) == SET)
+		Chip_SSP_SendFrame(LPC_SSP0, (uint16_t)tx_data);
 }
 
 void SSP0_IRQHandler(void)
@@ -29,22 +32,27 @@ void SSP0_IRQHandler(void)
 	}
 	if (regValue & SSP_RXMIS)	/* Rx at least half full */
 	{
-		if (LPC_SSP0->SR & SSP_STAT_RNE) {
+		while (LPC_SSP0->SR & SSP_STAT_RNE) {
 			byte = (uint8_t)LPC_SSP0->DR;
 			if (byte == CMD_START_SIGN) {
 				// new command received
 				SPI_head = 0;
 				SPI_len = 0;
-				SPI_SetData(0);
+				SPI_start = true;
+				SPI_SetData(GLOBAL_buttons);
 			} else {
-				if (SPI_len == 0) {
-					SPI_len = byte;
-				} else {
-					SPI_buff[SPI_head++] = byte;
-					if (SPI_head >= SPI_len) {
-						// command received
-						SPI_head = 0;
-						CMD_SetReady(SPI_buff, SPI_len);
+				if (SPI_start == true) {
+					if (SPI_len == 0) {
+						SPI_len = byte;
+					} else {
+						SPI_buff[SPI_head++] = byte;
+						SPI_SetData(GLOBAL_buttons);
+						if (SPI_head >= SPI_len) {
+							// command received
+							SPI_head = 0;
+							CMD_SetReady(SPI_buff, SPI_len);
+							SPI_start = false;
+						}
 					}
 				}
 			}
@@ -70,6 +78,7 @@ void SPI_Init(void)
 
 	SPI_head = 0;
 	SPI_len = 0;
+	SPI_start = false;
 
 	// set interrupt
 	LPC_SSP0->IMSC |= SSP_RXIM;

@@ -1,6 +1,7 @@
 #include "backlight.h"
 #include "buttons.h"
 #include "cmd.h"
+#include "global.h"
 #include "led.h"
 #include "spi.h"
 #include "st7066u.h"
@@ -56,7 +57,8 @@ void CMD_Process(void)
 				}
 				break;
 			case CMD_BUTTONS:
-				SPI_SetData(BUTTONS_GetStatus());
+				SPI_SetData(GLOBAL_buttons);
+				GLOBAL_buttons = 0;
 				break;
 			default:
 				// unknown command, ignore

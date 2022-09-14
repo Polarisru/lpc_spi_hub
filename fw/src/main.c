@@ -3,6 +3,7 @@
 #include "buttons.h"
 #include "chip.h"
 #include "cmd.h"
+#include "global.h"
 #include "led.h"
 #include "outputs.h"
 #include "spi.h"
@@ -16,9 +17,8 @@ int main(void) {
     // Read clock settings and update SystemCoreClock variable
     SystemCoreClockUpdate();
 #endif
-	// Set up and initialize all required blocks and
-	// functions related to the board hardware
-	/* Initialize GPIO */
+    GLOBAL_buttons = 0;
+	// Set up and initialize all required blocks and functions related to the board hardware
 	Chip_GPIO_Init(LPC_GPIO);
 	TIMER_Init();
 	BUTTONS_Init();
@@ -35,8 +35,8 @@ int main(void) {
 
 //	TIMER_StartMs(500);
     while(1) {
+    	GLOBAL_buttons |= BUTTONS_GetStatus();
     	CMD_Process();
-    	SPI_SetData(BUTTONS_GetStatus());
 //    	if (TIMER_IsTimeout() == true) {
 //    		LED_Toggle(LED_BOARD);
 //    		TIMER_StartMs(500);

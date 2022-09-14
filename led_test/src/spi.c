@@ -4,7 +4,7 @@
 
 #define SPI_PREAMBLE    0xAAU
 
-#define SPI_DUMMY_BYTE  0xFFU
+#define SPI_DUMMY_BYTE  0x00U
 
 void SPI_Delay(void)
 {
@@ -85,10 +85,11 @@ void SPI_ClearLcd(void)
 
 uint8_t SPI_GetButtons(void)
 {
-  //SPI_SendByte(SPI_PREAMBLE);  // signature
-  //SPI_SendByte(0x01);  // length
-  //SPI_SendByte(0x10);  // cmd+op code
-  return SPI_GetByte(SPI_PREAMBLE);
+  SPI_SendByte(SPI_PREAMBLE);  // signature
+  SPI_SendByte(0x01);  // length
+  SPI_SendByte(0x30);  // cmd+op code
+  return SPI_GetByte(SPI_DUMMY_BYTE);
+  //return SPI_GetByte(SPI_PREAMBLE);
 }
 
 void SPI_SetLeds(uint8_t value)
