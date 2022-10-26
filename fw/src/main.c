@@ -25,7 +25,7 @@ int main(void) {
 	LED_Init();
 	OUTPUTS_Init();
 	BACKLIGHT_Init();
-	SPI_Init();
+	//SPI_Init();
 	// Set the LED to the state of "On"
 	LED_Set(LED_BOARD, true);
 	ST7066U_Init(4, 20);
@@ -33,14 +33,13 @@ int main(void) {
 	ST7066U_WriteLine("Hello, world #2!", 2);
 	TIMER_WaitMs(1000);
 
-//	TIMER_StartMs(500);
     while(1) {
     	GLOBAL_buttons |= BUTTONS_GetStatus();
-    	CMD_Process();
-//    	if (TIMER_IsTimeout() == true) {
-//    		LED_Toggle(LED_BOARD);
-//    		TIMER_StartMs(500);
-//    	}
+    	//CMD_Process();
+    	if (TIMER_IsTimeout() == true) {
+    		LED_Toggle(LED_STAT0);
+    		TIMER_StartMs(500);
+    	}
     }
     return 0 ;
 }

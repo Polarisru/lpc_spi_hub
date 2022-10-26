@@ -5,8 +5,8 @@
 
 enum {
 	LED_BOARD,
-	//LED_STAT0,
-	//LED_STAT1,
+	LED_STAT0,
+	LED_STAT1,
 	LED_LAST
 };
 
