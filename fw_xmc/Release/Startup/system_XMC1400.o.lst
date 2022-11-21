@@ -1,0 +1,204 @@
+   1              	 .cpu cortex-m0
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,1
+   9              	 .eabi_attribute 30,4
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .code 16
+  13              	 .file "system_XMC1400.c"
+  14              	 .section .text.SystemCoreSetup,"ax",%progbits
+  15              	 .align 1
+  16              	 .weak SystemCoreSetup
+  17              	 .code 16
+  18              	 .thumb_func
+  20              	SystemCoreSetup:
+  21 0000 0121     	 mov r1,#1
+  22 0002 024A     	 ldr r2,.L2
+  23              	 
+  24 0004 936E     	 ldr r3,[r2,#104]
+  25 0006 8B43     	 bic r3,r1
+  26 0008 9366     	 str r3,[r2,#104]
+  27 000a 7047     	 bx lr
+  28              	.L3:
+  29              	 .align 2
+  30              	.L2:
+  31 000c 00000140 	 .word 1073807360
+  33              	 .section .text.OSCHP_GetFrequency,"ax",%progbits
+  34              	 .align 1
+  35              	 .weak OSCHP_GetFrequency
+  36              	 .code 16
+  37              	 .thumb_func
+  39              	OSCHP_GetFrequency:
+  40 0000 0048     	 ldr r0,.L5
+  41              	 
+  42 0002 7047     	 bx lr
+  43              	.L6:
+  44              	 .align 2
+  45              	.L5:
+  46 0004 002D3101 	 .word 20000000
+  48              	 .global __aeabi_uidiv
+  49              	 .section .text.SystemCoreClockUpdate,"ax",%progbits
+  50              	 .align 1
+  51              	 .weak SystemCoreClockUpdate
+  52              	 .code 16
+  53              	 .thumb_func
+  55              	SystemCoreClockUpdate:
+  56 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
+  57 0002 164F     	 ldr r7,.L15
+  58 0004 164E     	 ldr r6,.L15+4
+  59 0006 3B68     	 ldr r3,[r7]
+  60 0008 164C     	 ldr r4,.L15+8
+  61 000a 1B04     	 lsl r3,r3,#16
+  62 000c 1B0E     	 lsr r3,r3,#24
+  63 000e 3360     	 str r3,[r6]
+  64 0010 1AD0     	 beq .L8
+  65 0012 0322     	 mov r2,#3
+  66 0014 3868     	 ldr r0,[r7]
+  67 0016 F969     	 ldr r1,[r7,#28]
+  68 0018 C0B2     	 uxtb r0,r0
+  69 001a 0A40     	 and r2,r1
+  70 001c 1202     	 lsl r2,r2,#8
+  71 001e 124D     	 ldr r5,.L15+12
+  72 0020 0243     	 orr r2,r0
+  73 0022 2A60     	 str r2,[r5]
+  74 0024 F969     	 ldr r1,[r7,#28]
+  75 0026 8905     	 lsl r1,r1,#22
+  76 0028 03D4     	 bmi .L9
+  77 002a 9B02     	 lsl r3,r3,#10
+  78 002c 9918     	 add r1,r3,r2
+  79 002e 0F48     	 ldr r0,.L15+16
+  80 0030 06E0     	 b .L13
+  81              	.L9:
+  82 0032 FFF7FEFF 	 bl OSCHP_GetFrequency
+  83 0036 3168     	 ldr r1,[r6]
+  84 0038 2B68     	 ldr r3,[r5]
+  85 003a 8902     	 lsl r1,r1,#10
+  86 003c 8001     	 lsl r0,r0,#6
+  87 003e C918     	 add r1,r1,r3
+  88              	.L13:
+  89 0040 FFF7FEFF 	 bl __aeabi_uidiv
+  90 0044 0001     	 lsl r0,r0,#4
+  91 0046 07E0     	 b .L12
+  92              	.L8:
+  93 0048 FB69     	 ldr r3,[r7,#28]
+  94 004a 9B05     	 lsl r3,r3,#22
+  95 004c 02D4     	 bmi .L11
+  96 004e 084B     	 ldr r3,.L15+20
+  97 0050 2360     	 str r3,[r4]
+  98 0052 02E0     	 b .L7
+  99              	.L11:
+ 100 0054 FFF7FEFF 	 bl OSCHP_GetFrequency
+ 101              	.L12:
+ 102 0058 2060     	 str r0,[r4]
+ 103              	.L7:
+ 104              	 
+ 105 005a F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 106              	.L16:
+ 107              	 .align 2
+ 108              	.L15:
+ 109 005c 00030140 	 .word 1073808128
+ 110 0060 00000000 	 .word .LANCHOR0
+ 111 0064 00000000 	 .word .LANCHOR2
+ 112 0068 00000000 	 .word .LANCHOR1
+ 113 006c 00001BB7 	 .word -1222967296
+ 114 0070 006CDC02 	 .word 48000000
+ 116              	 .section .text.SystemCoreClockSetup,"ax",%progbits
+ 117              	 .align 1
+ 118              	 .weak SystemCoreClockSetup
+ 119              	 .code 16
+ 120              	 .thumb_func
+ 122              	SystemCoreClockSetup:
+ 123 0000 C023     	 mov r3,#192
+ 124 0002 0D48     	 ldr r0,.L18
+ 125 0004 10B5     	 push {r4,lr}
+ 126 0006 4362     	 str r3,[r0,#36]
+ 127 0008 0C4B     	 ldr r3,.L18+4
+ 128 000a 3024     	 mov r4,#48
+ 129 000c 191C     	 mov r1,r3
+ 130 000e 9031     	 add r1,r1,#144
+ 131 0010 0A88     	 ldrh r2,[r1]
+ 132 0012 8C33     	 add r3,r3,#140
+ 133 0014 2243     	 orr r2,r4
+ 134 0016 0A80     	 strh r2,[r1]
+ 135 0018 094A     	 ldr r2,.L18+8
+ 136 001a 0A49     	 ldr r1,.L18+12
+ 137 001c D469     	 ldr r4,[r2,#28]
+ 138              	 
+ 139 001e 2140     	 and r1,r4
+ 140 0020 0324     	 mov r4,#3
+ 141 0022 D161     	 str r1,[r2,#28]
+ 142 0024 1988     	 ldrh r1,[r3]
+ 143 0026 2143     	 orr r1,r4
+ 144 0028 1980     	 strh r1,[r3]
+ 145 002a 074B     	 ldr r3,.L18+16
+ 146 002c 1360     	 str r3,[r2]
+ 147 002e C323     	 mov r3,#195
+ 148 0030 4362     	 str r3,[r0,#36]
+ 149 0032 FFF7FEFF 	 bl SystemCoreClockUpdate
+ 150 0036 10BD     	 pop {r4,pc}
+ 151              	.L19:
+ 152              	 .align 2
+ 153              	.L18:
+ 154 0038 00000140 	 .word 1073807360
+ 155 003c 00100140 	 .word 1073811456
+ 156 0040 00030140 	 .word 1073808128
+ 157 0044 FFFDFFFF 	 .word -513
+ 158 0048 0001F13F 	 .word 1072759040
+ 160              	 .section .text.SystemInit,"ax",%progbits
+ 161              	 .align 1
+ 162              	 .weak SystemInit
+ 163              	 .code 16
+ 164              	 .thumb_func
+ 166              	SystemInit:
+ 167 0000 08B5     	 push {r3,lr}
+ 168 0002 FFF7FEFF 	 bl SystemCoreSetup
+ 169              	 
+ 170 0006 FFF7FEFF 	 bl SystemCoreClockSetup
+ 171 000a 08BD     	 pop {r3,pc}
+ 173              	 .global SystemCoreClock
+ 174              	 .section .no_init,"aw",%progbits
+ 175              	 .align 2
+ 176              	 .set .LANCHOR2,.+0
+ 179              	SystemCoreClock:
+ 180 0000 00000000 	 .space 4
+ 181              	 .section .bss.FDIV.5135,"aw",%nobits
+ 182              	 .align 2
+ 183              	 .set .LANCHOR1,.+0
+ 186              	FDIV.5135:
+ 187 0000 00000000 	 .space 4
+ 188              	 .section .bss.IDIV.5134,"aw",%nobits
+ 189              	 .align 2
+ 190              	 .set .LANCHOR0,.+0
+ 193              	IDIV.5134:
+ 194 0000 00000000 	 .space 4
+ 195              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
+DEFINED SYMBOLS
+                            *ABS*:00000000 system_XMC1400.c
+    {standard input}:15     .text.SystemCoreSetup:00000000 $t
+    {standard input}:20     .text.SystemCoreSetup:00000000 SystemCoreSetup
+    {standard input}:31     .text.SystemCoreSetup:0000000c $d
+    {standard input}:34     .text.OSCHP_GetFrequency:00000000 $t
+    {standard input}:39     .text.OSCHP_GetFrequency:00000000 OSCHP_GetFrequency
+    {standard input}:46     .text.OSCHP_GetFrequency:00000004 $d
+    {standard input}:50     .text.SystemCoreClockUpdate:00000000 $t
+    {standard input}:55     .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+    {standard input}:109    .text.SystemCoreClockUpdate:0000005c $d
+    {standard input}:117    .text.SystemCoreClockSetup:00000000 $t
+    {standard input}:122    .text.SystemCoreClockSetup:00000000 SystemCoreClockSetup
+    {standard input}:154    .text.SystemCoreClockSetup:00000038 $d
+    {standard input}:161    .text.SystemInit:00000000 $t
+    {standard input}:166    .text.SystemInit:00000000 SystemInit
+    {standard input}:179    .no_init:00000000 SystemCoreClock
+    {standard input}:175    .no_init:00000000 $d
+    {standard input}:182    .bss.FDIV.5135:00000000 $d
+    {standard input}:186    .bss.FDIV.5135:00000000 FDIV.5135
+    {standard input}:189    .bss.IDIV.5134:00000000 $d
+    {standard input}:193    .bss.IDIV.5134:00000000 IDIV.5134
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv

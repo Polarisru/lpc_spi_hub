@@ -1,0 +1,24 @@
+   1              	 .cpu cortex-m0
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,1
+   9              	 .eabi_attribute 30,4
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .code 16
+  13              	 .file "systimer_conf.c"
+  14              	 .global SYSTIMER_0
+  15              	 .section .bss.SYSTIMER_0,"aw",%nobits
+  18              	SYSTIMER_0:
+  19 0000 00       	 .space 1
+  20              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
+DEFINED SYMBOLS
+                            *ABS*:00000000 systimer_conf.c
+    {standard input}:18     .bss.SYSTIMER_0:00000000 SYSTIMER_0
+    {standard input}:19     .bss.SYSTIMER_0:00000000 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,88 @@
+   1              	 .cpu cortex-m0
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,1
+   9              	 .eabi_attribute 30,4
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .code 16
+  13              	 .file "main.c"
+  14              	 .section .text.startup.main,"ax",%progbits
+  15              	 .align 1
+  16              	 .global main
+  17              	 .code 16
+  18              	 .thumb_func
+  20              	main:
+  21 0000 30B5     	 push {r4,r5,lr}
+  22 0002 8BB0     	 sub sp,sp,#44
+  23 0004 1449     	 ldr r1,.L7
+  24 0006 1122     	 mov r2,#17
+  25 0008 05A8     	 add r0,sp,#20
+  26 000a FFF7FEFF 	 bl memcpy
+  27 000e FFF7FEFF 	 bl DAVE_Init
+  28 0012 0028     	 cmp r0,#0
+  29 0014 00D0     	 beq .L2
+  30              	.L3:
+  31 0016 FEE7     	 b .L3
+  32              	.L2:
+  33 0018 05A8     	 add r0,sp,#20
+  34 001a FFF7FEFF 	 bl strlen
+  35 001e 0F4C     	 ldr r4,.L7+4
+  36 0020 021C     	 mov r2,r0
+  37 0022 05A9     	 add r1,sp,#20
+  38 0024 201C     	 mov r0,r4
+  39 0026 FA25     	 mov r5,#250
+  40 0028 FFF7FEFF 	 bl UART_Transmit
+  41 002c AD00     	 lsl r5,r5,#2
+  42              	.L4:
+  43 002e FFF7FEFF 	 bl SYSTIMER_GetTickCount
+  44 0032 A842     	 cmp r0,r5
+  45 0034 FBD9     	 bls .L4
+  46 0036 FA23     	 mov r3,#250
+  47 0038 9B00     	 lsl r3,r3,#2
+  48 003a ED18     	 add r5,r5,r3
+  49 003c 2A1C     	 mov r2,r5
+  50 003e 0849     	 ldr r1,.L7+8
+  51 0040 01A8     	 add r0,sp,#4
+  52 0042 FFF7FEFF 	 bl sprintf
+  53 0046 01A8     	 add r0,sp,#4
+  54 0048 FFF7FEFF 	 bl strlen
+  55 004c 01A9     	 add r1,sp,#4
+  56 004e 021C     	 mov r2,r0
+  57 0050 201C     	 mov r0,r4
+  58 0052 FFF7FEFF 	 bl UART_Transmit
+  59 0056 EAE7     	 b .L4
+  60              	.L8:
+  61              	 .align 2
+  62              	.L7:
+  63 0058 04000000 	 .word .LC0
+  64 005c 00000000 	 .word UART_0
+  65 0060 00000000 	 .word .LC3
+  67              	 .section .rodata.str1.1,"aMS",%progbits,1
+  68              	.LC3:
+  69 0000 25640A00 	 .ascii "%d\012\000"
+  70              	.LC0:
+  71 0004 44657669 	 .ascii "Device started!\012\000"
+  71      63652073 
+  71      74617274 
+  71      6564210A 
+  71      00
+  72              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+    {standard input}:15     .text.startup.main:00000000 $t
+    {standard input}:20     .text.startup.main:00000000 main
+    {standard input}:63     .text.startup.main:00000058 $d
+
+UNDEFINED SYMBOLS
+memcpy
+DAVE_Init
+strlen
+UART_Transmit
+SYSTIMER_GetTickCount
+sprintf
+UART_0

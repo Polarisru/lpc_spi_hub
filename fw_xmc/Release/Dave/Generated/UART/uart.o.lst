@@ -1,0 +1,314 @@
+   1              	 .cpu cortex-m0
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,1
+   9              	 .eabi_attribute 30,4
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .code 16
+  13              	 .file "uart.c"
+  14              	 .section .text.UART_GetAppVersion,"ax",%progbits
+  15              	 .align 1
+  16              	 .global UART_GetAppVersion
+  17              	 .code 16
+  18              	 .thumb_func
+  20              	UART_GetAppVersion:
+  21 0000 0148     	 ldr r0,.L2
+  22 0002 82B0     	 sub sp,sp,#8
+  23 0004 02B0     	 add sp,sp,#8
+  24              	 
+  25 0006 7047     	 bx lr
+  26              	.L3:
+  27              	 .align 2
+  28              	.L2:
+  29 0008 04010E00 	 .word 917764
+  31              	 .section .text.UART_Init,"ax",%progbits
+  32              	 .align 1
+  33              	 .global UART_Init
+  34              	 .code 16
+  35              	 .thumb_func
+  37              	UART_Init:
+  38 0000 08B5     	 push {r3,lr}
+  39 0002 4368     	 ldr r3,[r0,#4]
+  40              	 
+  41 0004 5B68     	 ldr r3,[r3,#4]
+  42 0006 9847     	 blx r3
+  43 0008 08BD     	 pop {r3,pc}
+  45              	 .section .text.UART_Transmit,"ax",%progbits
+  46              	 .align 1
+  47              	 .global UART_Transmit
+  48              	 .code 16
+  49              	 .thumb_func
+  51              	UART_Transmit:
+  52 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
+  53 0002 4468     	 ldr r4,[r0,#4]
+  54 0004 A31C     	 add r3,r4,#2
+  55 0006 DE7F     	 ldrb r6,[r3,#31]
+  56 0008 0423     	 mov r3,#4
+  57 000a 022E     	 cmp r6,#2
+  58 000c 35D1     	 bne .L6
+  59 000e 0323     	 mov r3,#3
+  60 0010 0029     	 cmp r1,#0
+  61 0012 32D0     	 beq .L6
+  62 0014 002A     	 cmp r2,#0
+  63 0016 30D0     	 beq .L6
+  64 0018 8568     	 ldr r5,[r0,#8]
+  65 001a 331C     	 mov r3,r6
+  66 001c 2F7E     	 ldrb r7,[r5,#24]
+  67 001e 002F     	 cmp r7,#0
+  68 0020 2BD1     	 bne .L6
+  69 0022 013B     	 sub r3,r3,#1
+  70 0024 2B76     	 strb r3,[r5,#24]
+  71 0026 0434     	 add r4,r4,#4
+  72 0028 E37F     	 ldrb r3,[r4,#31]
+  73 002a 002B     	 cmp r3,#0
+  74 002c 04D0     	 beq .L8
+  75 002e 8024     	 mov r4,#128
+  76 0030 0368     	 ldr r3,[r0]
+  77 0032 2402     	 lsl r4,r4,#8
+  78 0034 FC33     	 add r3,r3,#252
+  79 0036 DC61     	 str r4,[r3,#28]
+  80              	.L8:
+  81 0038 041C     	 mov r4,r0
+  82 003a 0D1C     	 mov r5,r1
+  83 003c 8E18     	 add r6,r1,r2
+  84              	.L9:
+  85 003e 6368     	 ldr r3,[r4,#4]
+  86 0040 0433     	 add r3,r3,#4
+  87 0042 DB7F     	 ldrb r3,[r3,#31]
+  88 0044 B542     	 cmp r5,r6
+  89 0046 0DD0     	 beq .L32
+  90 0048 002B     	 cmp r3,#0
+  91 004a 05D0     	 beq .L10
+  92 004c 2268     	 ldr r2,[r4]
+  93              	.L11:
+  94 004e 131C     	 mov r3,r2
+  95 0050 FC33     	 add r3,r3,#252
+  96 0052 9B69     	 ldr r3,[r3,#24]
+  97 0054 DB04     	 lsl r3,r3,#19
+  98 0056 FAD4     	 bmi .L11
+  99              	.L10:
+ 100 0058 2978     	 ldrb r1,[r5]
+ 101 005a 2068     	 ldr r0,[r4]
+ 102 005c FFF7FEFF 	 bl XMC_UART_CH_Transmit
+ 103 0060 0135     	 add r5,r5,#1
+ 104 0062 ECE7     	 b .L9
+ 105              	.L32:
+ 106 0064 002B     	 cmp r3,#0
+ 107 0066 05D0     	 beq .L13
+ 108 0068 2268     	 ldr r2,[r4]
+ 109              	.L14:
+ 110 006a 131C     	 mov r3,r2
+ 111 006c FC33     	 add r3,r3,#252
+ 112 006e 9B69     	 ldr r3,[r3,#24]
+ 113 0070 1B05     	 lsl r3,r3,#20
+ 114 0072 FAD5     	 bpl .L14
+ 115              	.L13:
+ 116 0074 0023     	 mov r3,#0
+ 117 0076 A268     	 ldr r2,[r4,#8]
+ 118 0078 1376     	 strb r3,[r2,#24]
+ 119              	.L6:
+ 120 007a 181C     	 mov r0,r3
+ 121              	 
+ 122 007c F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 124              	 .section .text.UART_Receive,"ax",%progbits
+ 125              	 .align 1
+ 126              	 .global UART_Receive
+ 127              	 .code 16
+ 128              	 .thumb_func
+ 130              	UART_Receive:
+ 131 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
+ 132 0002 4468     	 ldr r4,[r0,#4]
+ 133 0004 E31C     	 add r3,r4,#3
+ 134 0006 DE7F     	 ldrb r6,[r3,#31]
+ 135 0008 0423     	 mov r3,#4
+ 136 000a 022E     	 cmp r6,#2
+ 137 000c 34D1     	 bne .L34
+ 138 000e 0323     	 mov r3,#3
+ 139 0010 0029     	 cmp r1,#0
+ 140 0012 31D0     	 beq .L34
+ 141 0014 002A     	 cmp r2,#0
+ 142 0016 2FD0     	 beq .L34
+ 143 0018 8568     	 ldr r5,[r0,#8]
+ 144 001a 331C     	 mov r3,r6
+ 145 001c 6F7E     	 ldrb r7,[r5,#25]
+ 146 001e 002F     	 cmp r7,#0
+ 147 0020 2AD1     	 bne .L34
+ 148 0022 013B     	 sub r3,r3,#1
+ 149 0024 6B76     	 strb r3,[r5,#25]
+ 150 0026 0534     	 add r4,r4,#5
+ 151 0028 E37F     	 ldrb r3,[r4,#31]
+ 152 002a 002B     	 cmp r3,#0
+ 153 002c 04D0     	 beq .L36
+ 154 002e 8024     	 mov r4,#128
+ 155 0030 0368     	 ldr r3,[r0]
+ 156 0032 E401     	 lsl r4,r4,#7
+ 157 0034 FC33     	 add r3,r3,#252
+ 158 0036 DC61     	 str r4,[r3,#28]
+ 159              	.L36:
+ 160 0038 051C     	 mov r5,r0
+ 161 003a 0C1C     	 mov r4,r1
+ 162 003c 8E18     	 add r6,r1,r2
+ 163              	.L37:
+ 164 003e B442     	 cmp r4,r6
+ 165 0040 17D0     	 beq .L53
+ 166 0042 6B68     	 ldr r3,[r5,#4]
+ 167 0044 0533     	 add r3,r3,#5
+ 168 0046 DA7F     	 ldrb r2,[r3,#31]
+ 169 0048 2B68     	 ldr r3,[r5]
+ 170 004a 002A     	 cmp r2,#0
+ 171 004c 05D0     	 beq .L42
+ 172              	.L39:
+ 173 004e 1A1C     	 mov r2,r3
+ 174 0050 FC32     	 add r2,r2,#252
+ 175 0052 9269     	 ldr r2,[r2,#24]
+ 176 0054 1207     	 lsl r2,r2,#28
+ 177 0056 FAD4     	 bmi .L39
+ 178 0058 05E0     	 b .L40
+ 179              	.L42:
+ 180 005a C022     	 mov r2,#192
+ 181 005c 996C     	 ldr r1,[r3,#72]
+ 182 005e 1202     	 lsl r2,r2,#8
+ 183 0060 1142     	 tst r1,r2
+ 184 0062 FAD0     	 beq .L42
+ 185 0064 DA64     	 str r2,[r3,#76]
+ 186              	.L40:
+ 187 0066 2868     	 ldr r0,[r5]
+ 188 0068 FFF7FEFF 	 bl XMC_UART_CH_GetReceivedData
+ 189 006c 2070     	 strb r0,[r4]
+ 190 006e 0134     	 add r4,r4,#1
+ 191 0070 E5E7     	 b .L37
+ 192              	.L53:
+ 193 0072 0023     	 mov r3,#0
+ 194 0074 AA68     	 ldr r2,[r5,#8]
+ 195 0076 5376     	 strb r3,[r2,#25]
+ 196              	.L34:
+ 197 0078 181C     	 mov r0,r3
+ 198              	 
+ 199 007a F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 201              	 .section .text.UART_SetBaudrate,"ax",%progbits
+ 202              	 .align 1
+ 203              	 .global UART_SetBaudrate
+ 204              	 .code 16
+ 205              	 .thumb_func
+ 207              	UART_SetBaudrate:
+ 208 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
+ 209 0002 8368     	 ldr r3,[r0,#8]
+ 210 0004 0F1C     	 mov r7,r1
+ 211 0006 1C7E     	 ldrb r4,[r3,#24]
+ 212 0008 4168     	 ldr r1,[r0,#4]
+ 213 000a CE69     	 ldr r6,[r1,#28]
+ 214 000c 002C     	 cmp r4,#0
+ 215 000e 01D0     	 beq .L55
+ 216              	.L57:
+ 217 0010 0227     	 mov r7,#2
+ 218 0012 34E0     	 b .L56
+ 219              	.L55:
+ 220 0014 5B7E     	 ldrb r3,[r3,#25]
+ 221 0016 DBB2     	 uxtb r3,r3
+ 222 0018 002B     	 cmp r3,#0
+ 223 001a F9D1     	 bne .L57
+ 224 001c 0131     	 add r1,r1,#1
+ 225 001e 141C     	 mov r4,r2
+ 226 0020 CA7F     	 ldrb r2,[r1,#31]
+ 227 0022 051C     	 mov r5,r0
+ 228 0024 022A     	 cmp r2,#2
+ 229 0026 04D0     	 beq .L58
+ 230 0028 3179     	 ldrb r1,[r6,#4]
+ 231 002a 3068     	 ldr r0,[r6]
+ 232 002c 1A1C     	 mov r2,r3
+ 233 002e FFF7FEFF 	 bl XMC_GPIO_SetMode
+ 234              	.L58:
+ 235 0032 2868     	 ldr r0,[r5]
+ 236 0034 FFF7FEFF 	 bl XMC_UART_CH_Stop
+ 237 0038 0028     	 cmp r0,#0
+ 238 003a E9D1     	 bne .L57
+ 239 003c 391C     	 mov r1,r7
+ 240 003e 2868     	 ldr r0,[r5]
+ 241 0040 221C     	 mov r2,r4
+ 242 0042 FFF7FEFF 	 bl XMC_UART_CH_SetBaudrate
+ 243 0046 071E     	 sub r7,r0,#0
+ 244 0048 08D1     	 bne .L59
+ 245 004a 2B68     	 ldr r3,[r5]
+ 246 004c 6408     	 lsr r4,r4,#1
+ 247 004e DA6B     	 ldr r2,[r3,#60]
+ 248 0050 0C49     	 ldr r1,.L66
+ 249 0052 0134     	 add r4,r4,#1
+ 250 0054 2402     	 lsl r4,r4,#8
+ 251 0056 0A40     	 and r2,r1
+ 252 0058 1443     	 orr r4,r2
+ 253 005a DC63     	 str r4,[r3,#60]
+ 254              	.L59:
+ 255 005c 0F21     	 mov r1,#15
+ 256 005e 2A68     	 ldr r2,[r5]
+ 257 0060 136C     	 ldr r3,[r2,#64]
+ 258 0062 8B43     	 bic r3,r1
+ 259 0064 0D39     	 sub r1,r1,#13
+ 260 0066 0B43     	 orr r3,r1
+ 261 0068 1364     	 str r3,[r2,#64]
+ 262 006a 6B68     	 ldr r3,[r5,#4]
+ 263 006c 0133     	 add r3,r3,#1
+ 264 006e DB7F     	 ldrb r3,[r3,#31]
+ 265 0070 8B42     	 cmp r3,r1
+ 266 0072 04D0     	 beq .L56
+ 267 0074 3179     	 ldrb r1,[r6,#4]
+ 268 0076 3068     	 ldr r0,[r6]
+ 269 0078 B268     	 ldr r2,[r6,#8]
+ 270 007a FFF7FEFF 	 bl XMC_GPIO_Init
+ 271              	.L56:
+ 272 007e 381C     	 mov r0,r7
+ 273              	 
+ 274 0080 F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 275              	.L67:
+ 276 0082 C046     	 .align 2
+ 277              	.L66:
+ 278 0084 FFE0FFFF 	 .word -7937
+ 280              	 .global uart_event_conf_flags
+ 281              	 .global uart_event_status_flags
+ 282              	 .section .rodata.uart_event_status_flags,"a",%progbits
+ 283              	 .align 2
+ 286              	uart_event_status_flags:
+ 287 0000 04000000 	 .word 4
+ 288 0004 10000000 	 .word 16
+ 289 0008 20000000 	 .word 32
+ 290 000c 40000000 	 .word 64
+ 291 0010 08000000 	 .word 8
+ 292              	 .section .rodata.uart_event_conf_flags,"a",%progbits
+ 293              	 .align 2
+ 296              	uart_event_conf_flags:
+ 297 0000 08000000 	 .word 8
+ 298 0004 20000000 	 .word 32
+ 299 0008 40000000 	 .word 64
+ 300 000c 40000000 	 .word 64
+ 301 0010 10000000 	 .word 16
+ 302              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
+DEFINED SYMBOLS
+                            *ABS*:00000000 uart.c
+    {standard input}:15     .text.UART_GetAppVersion:00000000 $t
+    {standard input}:20     .text.UART_GetAppVersion:00000000 UART_GetAppVersion
+    {standard input}:29     .text.UART_GetAppVersion:00000008 $d
+    {standard input}:32     .text.UART_Init:00000000 $t
+    {standard input}:37     .text.UART_Init:00000000 UART_Init
+    {standard input}:46     .text.UART_Transmit:00000000 $t
+    {standard input}:51     .text.UART_Transmit:00000000 UART_Transmit
+    {standard input}:125    .text.UART_Receive:00000000 $t
+    {standard input}:130    .text.UART_Receive:00000000 UART_Receive
+    {standard input}:202    .text.UART_SetBaudrate:00000000 $t
+    {standard input}:207    .text.UART_SetBaudrate:00000000 UART_SetBaudrate
+    {standard input}:278    .text.UART_SetBaudrate:00000084 $d
+    {standard input}:296    .rodata.uart_event_conf_flags:00000000 uart_event_conf_flags
+    {standard input}:286    .rodata.uart_event_status_flags:00000000 uart_event_status_flags
+    {standard input}:283    .rodata.uart_event_status_flags:00000000 $d
+    {standard input}:293    .rodata.uart_event_conf_flags:00000000 $d
+
+UNDEFINED SYMBOLS
+XMC_UART_CH_Transmit
+XMC_UART_CH_GetReceivedData
+XMC_GPIO_SetMode
+XMC_UART_CH_Stop
+XMC_UART_CH_SetBaudrate
+XMC_GPIO_Init
