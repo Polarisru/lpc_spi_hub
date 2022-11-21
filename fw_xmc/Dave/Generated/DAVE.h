@@ -52,16 +52,16 @@
 #include "CLOCK_XMC1/clock_xmc1.h"
   
 
-#include "UART/uart.h"
-  
-
 #include "CPU_CTRL_XMC1/cpu_ctrl_xmc1.h"
   
 
-#include "SYSTIMER/systimer.h"
+#include "UART/uart.h"
   
 
 #include "SPI_SLAVE/spi_slave.h"
+  
+
+#include "SYSTIMER/systimer.h"
   
 	
 

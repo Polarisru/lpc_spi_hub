@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Project MotherSystem_Version="" Name="lcd_spi" Path="C:\Infineon\Tools\DAVE IDE\4.5.0.202105191637\eclipse\workspace\lcd_spi">
+<Project MotherSystem_Version="" Name="xmc_spi_hub" Path="E:\Projects\lpc_spi_hub\fw_xmc\xmc_spi_hub">
     <COMPILER>
         <Name>ARM_GCC_HOME</Name>
         <Version/>

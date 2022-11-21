@@ -27,11 +27,11 @@
   28 0012 0028     	 cmp r0,#0
   29 0014 07D1     	 bne .L3
   30 0016 0648     	 ldr r0,.L5+8
-  31 0018 FFF7FEFF 	 bl SYSTIMER_Init
+  31 0018 FFF7FEFF 	 bl SPI_SLAVE_Init
   32 001c 0028     	 cmp r0,#0
   33 001e 02D1     	 bne .L3
   34 0020 0448     	 ldr r0,.L5+12
-  35 0022 FFF7FEFF 	 bl SPI_SLAVE_Init
+  35 0022 FFF7FEFF 	 bl SYSTIMER_Init
   36              	.L3:
   37              	 
   38 0026 08BD     	 pop {r3,pc}
@@ -40,8 +40,8 @@
   41              	.L5:
   42 0028 00000000 	 .word CLOCK_XMC1_0
   43 002c 00000000 	 .word UART_0
-  44 0030 00000000 	 .word SYSTIMER_0
-  45 0034 00000000 	 .word SPI_SLAVE_0
+  44 0030 00000000 	 .word SPI_SLAVE_0
+  45 0034 00000000 	 .word SYSTIMER_0
   47              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
 DEFINED SYMBOLS
                             *ABS*:00000000 DAVE.c
@@ -52,9 +52,9 @@ DEFINED SYMBOLS
 UNDEFINED SYMBOLS
 CLOCK_XMC1_Init
 UART_Init
-SYSTIMER_Init
 SPI_SLAVE_Init
+SYSTIMER_Init
 CLOCK_XMC1_0
 UART_0
-SYSTIMER_0
 SPI_SLAVE_0
+SYSTIMER_0

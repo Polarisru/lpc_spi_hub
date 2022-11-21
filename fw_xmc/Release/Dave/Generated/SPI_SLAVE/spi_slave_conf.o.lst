@@ -42,324 +42,331 @@
   45 0000 F8B5     	 push {r3,r4,r5,r6,r7,lr}
   46 0002 0025     	 mov r5,#0
   47 0004 9024     	 mov r4,#144
-  48 0006 494B     	 ldr r3,.L3
-  49 0008 494F     	 ldr r7,.L3+4
-  50 000a 9B68     	 ldr r3,[r3,#8]
-  51 000c 381C     	 mov r0,r7
-  52 000e 9D76     	 strb r5,[r3,#26]
-  53 0010 0121     	 mov r1,#1
-  54 0012 DD76     	 strb r5,[r3,#27]
-  55 0014 474A     	 ldr r2,.L3+8
+  48 0006 0127     	 mov r7,#1
+  49 0008 4B4B     	 ldr r3,.L3
+  50 000a 4C48     	 ldr r0,.L3+4
+  51 000c 9B68     	 ldr r3,[r3,#8]
+  52 000e 0121     	 mov r1,#1
+  53 0010 9D76     	 strb r5,[r3,#26]
+  54 0012 4B4A     	 ldr r2,.L3+8
+  55 0014 DD76     	 strb r5,[r3,#27]
   56 0016 FFF7FEFF 	 bl XMC_GPIO_Init
-  57 001a 381C     	 mov r0,r7
+  57 001a 4848     	 ldr r0,.L3+4
   58 001c 0421     	 mov r1,#4
-  59 001e 464A     	 ldr r2,.L3+12
+  59 001e 494A     	 ldr r2,.L3+12
   60 0020 E405     	 lsl r4,r4,#23
   61 0022 FFF7FEFF 	 bl XMC_GPIO_Init
-  62 0026 381C     	 mov r0,r7
-  63 0028 291C     	 mov r1,r5
-  64 002a 444A     	 ldr r2,.L3+16
+  62 0026 291C     	 mov r1,r5
+  63 0028 4448     	 ldr r0,.L3+4
+  64 002a 474A     	 ldr r2,.L3+16
   65 002c FFF7FEFF 	 bl XMC_GPIO_Init
   66 0030 201C     	 mov r0,r4
-  67 0032 4349     	 ldr r1,.L3+20
+  67 0032 4649     	 ldr r1,.L3+20
   68 0034 0122     	 mov r2,#1
   69 0036 FFF7FEFF 	 bl XMC_SPI_CH_InitEx
-  70 003a 0122     	 mov r2,#1
-  71 003c 636B     	 ldr r3,[r4,#52]
-  72 003e 281C     	 mov r0,r5
-  73 0040 9343     	 bic r3,r2
-  74 0042 6363     	 str r3,[r4,#52]
-  75 0044 626B     	 ldr r2,[r4,#52]
-  76 0046 3F4B     	 ldr r3,.L3+24
-  77 0048 0221     	 mov r1,#2
-  78 004a 1340     	 and r3,r2
-  79 004c E022     	 mov r2,#224
-  80 004e D204     	 lsl r2,r2,#19
-  81 0050 1343     	 orr r3,r2
-  82 0052 6363     	 str r3,[r4,#52]
-  83 0054 FC23     	 mov r3,#252
-  84 0056 626B     	 ldr r2,[r4,#52]
-  85 0058 9B03     	 lsl r3,r3,#14
-  86 005a 1343     	 orr r3,r2
-  87 005c 6363     	 str r3,[r4,#52]
-  88 005e FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
-  89 0062 291C     	 mov r1,r5
-  90 0064 0320     	 mov r0,#3
-  91 0066 FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
-  92 006a 291C     	 mov r1,r5
-  93 006c 0420     	 mov r0,#4
-  94 006e FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
-  95 0072 0520     	 mov r0,#5
-  96 0074 0421     	 mov r1,#4
-  97 0076 FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
-  98 007a 0120     	 mov r0,#1
-  99 007c 0321     	 mov r1,#3
- 100 007e FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
- 101 0082 0220     	 mov r0,#2
- 102 0084 0621     	 mov r1,#6
- 103 0086 FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
- 104 008a 8022     	 mov r2,#128
- 105 008c 636A     	 ldr r3,[r4,#36]
- 106 008e 5200     	 lsl r2,r2,#1
- 107 0090 1343     	 orr r3,r2
- 108 0092 6362     	 str r3,[r4,#36]
- 109 0094 201C     	 mov r0,r4
- 110 0096 0421     	 mov r1,#4
- 111 0098 FF3A     	 sub r2,r2,#255
- 112 009a FFF7FEFF 	 bl XMC_USIC_CH_SetInterruptNodePointer
- 113 009e 201C     	 mov r0,r4
- 114 00a0 2A1C     	 mov r2,r5
- 115 00a2 0821     	 mov r1,#8
- 116 00a4 FFF7FEFF 	 bl XMC_USIC_CH_SetInterruptNodePointer
- 117 00a8 201C     	 mov r0,r4
- 118 00aa 2A1C     	 mov r2,r5
- 119 00ac 0C21     	 mov r1,#12
- 120 00ae FFF7FEFF 	 bl XMC_USIC_CH_SetInterruptNodePointer
- 121 00b2 201C     	 mov r0,r4
- 122 00b4 1021     	 mov r1,#16
- 123 00b6 0222     	 mov r2,#2
- 124 00b8 FFF7FEFF 	 bl XMC_USIC_CH_SetInterruptNodePointer
- 125 00bc C223     	 mov r3,#194
- 126 00be 224E     	 ldr r6,.L3+28
- 127 00c0 9B00     	 lsl r3,r3,#2
- 128 00c2 F258     	 ldr r2,[r6,r3]
- 129 00c4 214B     	 ldr r3,.L3+32
- 130 00c6 A021     	 mov r1,#160
- 131 00c8 1340     	 and r3,r2
- 132 00ca C022     	 mov r2,#192
- 133 00cc 1204     	 lsl r2,r2,#16
- 134 00ce 1343     	 orr r3,r2
- 135 00d0 C222     	 mov r2,#194
- 136 00d2 9200     	 lsl r2,r2,#2
- 137 00d4 B350     	 str r3,[r6,r2]
- 138 00d6 0A20     	 mov r0,#10
- 139 00d8 0901     	 lsl r1,r1,#4
- 140 00da FFF7FEFF 	 bl XMC_SCU_SetInterruptControl
- 141 00de 8023     	 mov r3,#128
- 142 00e0 DB00     	 lsl r3,r3,#3
- 143 00e2 3360     	 str r3,[r6]
- 144 00e4 F83B     	 sub r3,r3,#248
- 145 00e6 F258     	 ldr r2,[r6,r3]
- 146 00e8 194B     	 ldr r3,.L3+36
- 147 00ea 9021     	 mov r1,#144
- 148 00ec 1340     	 and r3,r2
- 149 00ee 8022     	 mov r2,#128
- 150 00f0 1202     	 lsl r2,r2,#8
- 151 00f2 1343     	 orr r3,r2
- 152 00f4 C222     	 mov r2,#194
- 153 00f6 9200     	 lsl r2,r2,#2
- 154 00f8 B350     	 str r3,[r6,r2]
- 155 00fa 0920     	 mov r0,#9
- 156 00fc 0901     	 lsl r1,r1,#4
- 157 00fe FFF7FEFF 	 bl XMC_SCU_SetInterruptControl
- 158 0102 8023     	 mov r3,#128
- 159 0104 9B00     	 lsl r3,r3,#2
- 160 0106 3360     	 str r3,[r6]
- 161 0108 0F22     	 mov r2,#15
- 162 010a 236C     	 ldr r3,[r4,#64]
- 163 010c 381C     	 mov r0,r7
- 164 010e 9343     	 bic r3,r2
- 165 0110 0E3A     	 sub r2,r2,#14
- 166 0112 1343     	 orr r3,r2
- 167 0114 2364     	 str r3,[r4,#64]
- 168 0116 0521     	 mov r1,#5
- 169 0118 0E4A     	 ldr r2,.L3+40
- 170 011a FFF7FEFF 	 bl XMC_GPIO_Init
- 171 011e 381C     	 mov r0,r7
- 172 0120 2A1C     	 mov r2,r5
- 173 0122 0521     	 mov r1,#5
- 174 0124 FFF7FEFF 	 bl XMC_GPIO_SetHardwareControl
- 175              	 
- 176 0128 281C     	 mov r0,r5
- 177 012a F8BD     	 pop {r3,r4,r5,r6,r7,pc}
- 178              	.L4:
- 179              	 .align 2
- 180              	.L3:
- 181 012c 00000000 	 .word .LANCHOR0
- 182 0130 00010440 	 .word 1074004224
- 183 0134 00000000 	 .word .LANCHOR1
- 184 0138 00000000 	 .word .LANCHOR2
- 185 013c 00000000 	 .word .LANCHOR3
- 186 0140 00000000 	 .word .LANCHOR4
- 187 0144 FFFFFFF0 	 .word -251658241
- 188 0148 00E100E0 	 .word -536813312
- 189 014c FFFF00FF 	 .word -16711681
- 190 0150 FF00FFFF 	 .word -65281
- 191 0154 00000000 	 .word .LANCHOR5
- 193              	 .section .text.IRQ10_Handler,"ax",%progbits
- 194              	 .align 1
- 195              	 .global IRQ10_Handler
- 196              	 .code 16
- 197              	 .thumb_func
- 199              	IRQ10_Handler:
- 200 0000 08B5     	 push {r3,lr}
- 201 0002 0248     	 ldr r0,.L6
- 202 0004 FFF7FEFF 	 bl SPI_SLAVE_lTransmitHandler
- 203              	 
- 204 0008 08BD     	 pop {r3,pc}
- 205              	.L7:
- 206 000a C046     	 .align 2
- 207              	.L6:
- 208 000c 00000000 	 .word .LANCHOR0
- 210              	 .section .text.IRQ9_Handler,"ax",%progbits
- 211              	 .align 1
- 212              	 .global IRQ9_Handler
- 213              	 .code 16
- 214              	 .thumb_func
- 216              	IRQ9_Handler:
- 217 0000 08B5     	 push {r3,lr}
- 218 0002 0248     	 ldr r0,.L9
- 219 0004 FFF7FEFF 	 bl SPI_SLAVE_lReceiveHandler
- 220              	 
- 221 0008 08BD     	 pop {r3,pc}
- 222              	.L10:
- 223 000a C046     	 .align 2
- 224              	.L9:
- 225 000c 00000000 	 .word .LANCHOR0
- 227              	 .global SPI_SLAVE_0
- 228              	 .global SPI_SLAVE_0_runtime
- 229              	 .global SPI_SLAVE_0_conf
- 230              	 .global SPI_SLAVE_0_slavesel_pin_config
- 231              	 .global SPI_SLAVE_0_sclk_pin_config
- 232              	 .global SPI_SLAVE_0_mosi_pin
- 233              	 .global SPI_SLAVE_0_mosi_pin_config
- 234              	 .global SPI_SLAVE_0_miso_pin
- 235              	 .global SPI_SLAVE_0_mosi1_pin_config
- 236              	 .global SPI_SLAVE_0_channel_config
- 237              	 .section .rodata.SPI_SLAVE_0_miso_pin,"a",%progbits
- 238              	 .align 2
- 241              	SPI_SLAVE_0_miso_pin:
- 242 0000 00010440 	 .word 1074004224
- 243 0004 00000000 	 .word SPI_SLAVE_0_mosi1_pin_config
- 244 0008 00       	 .byte 0
- 245 0009 05       	 .byte 5
- 246 000a 0000     	 .space 2
- 247              	 .section .rodata.SPI_SLAVE_0_channel_config,"a",%progbits
- 248              	 .align 2
- 249              	 .set .LANCHOR4,.+0
- 252              	SPI_SLAVE_0_channel_config:
- 253 0000 00000000 	 .space 5
- 253      00
- 254 0005 01       	 .byte 1
- 255 0006 0000     	 .space 2
- 256 0008 0000     	 .short 0
- 257 000a 0000     	 .space 2
- 258              	 .section .rodata.SPI_SLAVE_0_mosi_pin_config,"a",%progbits
- 259              	 .align 2
- 260              	 .set .LANCHOR3,.+0
- 263              	SPI_SLAVE_0_mosi_pin_config:
- 264 0000 00       	 .byte 0
- 265 0001 00       	 .byte 0
- 266 0002 0000     	 .space 2
- 267 0004 01000000 	 .word 1
- 268              	 .section .rodata.SPI_SLAVE_0_conf,"a",%progbits
- 269              	 .align 2
- 272              	SPI_SLAVE_0_conf:
- 273 0000 00000000 	 .word SPI_SLAVE_0_channel_config
- 274 0004 00000000 	 .word SPI_SLAVE_0_miso_pin
- 275 0008 00000000 	 .word SPI_SLAVE_0_mosi_pin
- 276 000c 00000000 	 .word SPI_SLAVE_0_init
- 277 0010 00000000 	 .word 0
- 278 0014 00000000 	 .word 0
- 279 0018 00000000 	 .word 0
- 280 001c 00000000 	 .word 0
- 281 0020 00       	 .byte 0
- 282 0021 00       	 .byte 0
- 283 0022 00       	 .byte 0
- 284 0023 00       	 .byte 0
- 285 0024 00       	 .byte 0
- 286 0025 01       	 .byte 1
- 287 0026 02       	 .byte 2
- 288 0027 00       	 .space 1
- 289              	 .section .rodata.SPI_SLAVE_0_mosi_pin,"a",%progbits
- 290              	 .align 2
- 293              	SPI_SLAVE_0_mosi_pin:
- 294 0000 00010440 	 .word 1074004224
- 295 0004 00000000 	 .word SPI_SLAVE_0_mosi_pin_config
- 296 0008 00       	 .byte 0
- 297 0009 00       	 .byte 0
- 298 000a 0000     	 .space 2
- 299              	 .section .rodata.SPI_SLAVE_0_mosi1_pin_config,"a",%progbits
- 300              	 .align 2
- 301              	 .set .LANCHOR5,.+0
- 304              	SPI_SLAVE_0_mosi1_pin_config:
- 305 0000 88       	 .byte -120
- 306 0001 000000   	 .space 3
- 307 0004 01000000 	 .word 1
- 308              	 .section .data.SPI_SLAVE_0_runtime,"aw",%progbits
- 309              	 .align 2
- 312              	SPI_SLAVE_0_runtime:
- 313 0000 00000000 	 .space 24
- 313      00000000 
- 313      00000000 
- 313      00000000 
- 313      00000000 
- 314 0018 00       	 .byte 0
- 315 0019 01       	 .byte 1
- 316 001a 00       	 .byte 0
- 317 001b 00       	 .byte 0
- 318              	 .section .data.SPI_SLAVE_0,"aw",%progbits
- 319              	 .align 2
- 320              	 .set .LANCHOR0,.+0
- 323              	SPI_SLAVE_0:
- 324 0000 00000048 	 .word 1207959552
- 325 0004 00000000 	 .word SPI_SLAVE_0_conf
- 326 0008 00000000 	 .word SPI_SLAVE_0_runtime
- 327              	 .section .rodata.SPI_SLAVE_0_sclk_pin_config,"a",%progbits
- 328              	 .align 2
- 329              	 .set .LANCHOR1,.+0
- 332              	SPI_SLAVE_0_sclk_pin_config:
- 333 0000 00       	 .byte 0
- 334 0001 00       	 .byte 0
- 335 0002 0000     	 .space 2
- 336 0004 01000000 	 .word 1
- 337              	 .section .rodata.SPI_SLAVE_0_slavesel_pin_config,"a",%progbits
- 338              	 .align 2
- 339              	 .set .LANCHOR2,.+0
- 342              	SPI_SLAVE_0_slavesel_pin_config:
- 343 0000 00       	 .byte 0
- 344 0001 00       	 .byte 0
- 345 0002 0000     	 .space 2
- 346 0004 01000000 	 .word 1
- 347              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
+  70 003a 636B     	 ldr r3,[r4,#52]
+  71 003c 281C     	 mov r0,r5
+  72 003e 3B43     	 orr r3,r7
+  73 0040 6363     	 str r3,[r4,#52]
+  74 0042 626B     	 ldr r2,[r4,#52]
+  75 0044 424B     	 ldr r3,.L3+24
+  76 0046 0221     	 mov r1,#2
+  77 0048 1340     	 and r3,r2
+  78 004a E022     	 mov r2,#224
+  79 004c D204     	 lsl r2,r2,#19
+  80 004e 1343     	 orr r3,r2
+  81 0050 6363     	 str r3,[r4,#52]
+  82 0052 FC23     	 mov r3,#252
+  83 0054 626B     	 ldr r2,[r4,#52]
+  84 0056 9B03     	 lsl r3,r3,#14
+  85 0058 1343     	 orr r3,r2
+  86 005a 6363     	 str r3,[r4,#52]
+  87 005c FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
+  88 0060 291C     	 mov r1,r5
+  89 0062 0320     	 mov r0,#3
+  90 0064 FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
+  91 0068 291C     	 mov r1,r5
+  92 006a 0420     	 mov r0,#4
+  93 006c FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
+  94 0070 0520     	 mov r0,#5
+  95 0072 0421     	 mov r1,#4
+  96 0074 FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
+  97 0078 381C     	 mov r0,r7
+  98 007a 0321     	 mov r1,#3
+  99 007c FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
+ 100 0080 0220     	 mov r0,#2
+ 101 0082 0621     	 mov r1,#6
+ 102 0084 FFF7FEFF 	 bl XMC_SPI_CH_SetInputSource.constprop.1
+ 103 0088 8022     	 mov r2,#128
+ 104 008a 636A     	 ldr r3,[r4,#36]
+ 105 008c 5200     	 lsl r2,r2,#1
+ 106 008e 1343     	 orr r3,r2
+ 107 0090 6362     	 str r3,[r4,#36]
+ 108 0092 201C     	 mov r0,r4
+ 109 0094 3B1C     	 mov r3,r7
+ 110 0096 1021     	 mov r1,#16
+ 111 0098 FC3A     	 sub r2,r2,#252
+ 112 009a FFF7FEFF 	 bl XMC_USIC_CH_TXFIFO_Configure
+ 113 009e 2B1C     	 mov r3,r5
+ 114 00a0 201C     	 mov r0,r4
+ 115 00a2 291C     	 mov r1,r5
+ 116 00a4 0422     	 mov r2,#4
+ 117 00a6 FFF7FEFF 	 bl XMC_USIC_CH_RXFIFO_Configure
+ 118 00aa 201C     	 mov r0,r4
+ 119 00ac 1021     	 mov r1,#16
+ 120 00ae 0422     	 mov r2,#4
+ 121 00b0 FFF7FEFF 	 bl XMC_USIC_CH_SetInterruptNodePointer
+ 122 00b4 201C     	 mov r0,r4
+ 123 00b6 1021     	 mov r1,#16
+ 124 00b8 0322     	 mov r2,#3
+ 125 00ba FFF7FEFF 	 bl XMC_USIC_CH_TXFIFO_SetInterruptNodePointer
+ 126 00be 201C     	 mov r0,r4
+ 127 00c0 3A1C     	 mov r2,r7
+ 128 00c2 1021     	 mov r1,#16
+ 129 00c4 FFF7FEFF 	 bl XMC_USIC_CH_RXFIFO_SetInterruptNodePointer
+ 130 00c8 201C     	 mov r0,r4
+ 131 00ca 3A1C     	 mov r2,r7
+ 132 00cc 1321     	 mov r1,#19
+ 133 00ce FFF7FEFF 	 bl XMC_USIC_CH_RXFIFO_SetInterruptNodePointer
+ 134 00d2 C322     	 mov r2,#195
+ 135 00d4 FF21     	 mov r1,#255
+ 136 00d6 1F4E     	 ldr r6,.L3+28
+ 137 00d8 9200     	 lsl r2,r2,#2
+ 138 00da B358     	 ldr r3,[r6,r2]
+ 139 00dc 0C20     	 mov r0,#12
+ 140 00de 8B43     	 bic r3,r1
+ 141 00e0 3F39     	 sub r1,r1,#63
+ 142 00e2 0B43     	 orr r3,r1
+ 143 00e4 C021     	 mov r1,#192
+ 144 00e6 B350     	 str r3,[r6,r2]
+ 145 00e8 0901     	 lsl r1,r1,#4
+ 146 00ea FFF7FEFF 	 bl XMC_SCU_SetInterruptControl
+ 147 00ee 8023     	 mov r3,#128
+ 148 00f0 5B01     	 lsl r3,r3,#5
+ 149 00f2 3360     	 str r3,[r6]
+ 150 00f4 C222     	 mov r2,#194
+ 151 00f6 9200     	 lsl r2,r2,#2
+ 152 00f8 B158     	 ldr r1,[r6,r2]
+ 153 00fa 174B     	 ldr r3,.L3+32
+ 154 00fc 0A20     	 mov r0,#10
+ 155 00fe 0B40     	 and r3,r1
+ 156 0100 8021     	 mov r1,#128
+ 157 0102 0904     	 lsl r1,r1,#16
+ 158 0104 0B43     	 orr r3,r1
+ 159 0106 A021     	 mov r1,#160
+ 160 0108 B350     	 str r3,[r6,r2]
+ 161 010a 0901     	 lsl r1,r1,#4
+ 162 010c FFF7FEFF 	 bl XMC_SCU_SetInterruptControl
+ 163 0110 8023     	 mov r3,#128
+ 164 0112 DB00     	 lsl r3,r3,#3
+ 165 0114 3360     	 str r3,[r6]
+ 166 0116 0F22     	 mov r2,#15
+ 167 0118 236C     	 ldr r3,[r4,#64]
+ 168 011a 0848     	 ldr r0,.L3+4
+ 169 011c 9343     	 bic r3,r2
+ 170 011e 3B43     	 orr r3,r7
+ 171 0120 2364     	 str r3,[r4,#64]
+ 172 0122 0521     	 mov r1,#5
+ 173 0124 0D4A     	 ldr r2,.L3+36
+ 174 0126 FFF7FEFF 	 bl XMC_GPIO_Init
+ 175 012a 2A1C     	 mov r2,r5
+ 176 012c 0348     	 ldr r0,.L3+4
+ 177 012e 0521     	 mov r1,#5
+ 178 0130 FFF7FEFF 	 bl XMC_GPIO_SetHardwareControl
+ 179              	 
+ 180 0134 281C     	 mov r0,r5
+ 181 0136 F8BD     	 pop {r3,r4,r5,r6,r7,pc}
+ 182              	.L4:
+ 183              	 .align 2
+ 184              	.L3:
+ 185 0138 00000000 	 .word .LANCHOR0
+ 186 013c 00010440 	 .word 1074004224
+ 187 0140 00000000 	 .word .LANCHOR1
+ 188 0144 00000000 	 .word .LANCHOR2
+ 189 0148 00000000 	 .word .LANCHOR3
+ 190 014c 00000000 	 .word .LANCHOR4
+ 191 0150 FFFFFFF0 	 .word -251658241
+ 192 0154 00E100E0 	 .word -536813312
+ 193 0158 FFFF00FF 	 .word -16711681
+ 194 015c 00000000 	 .word .LANCHOR5
+ 196              	 .section .text.IRQ12_Handler,"ax",%progbits
+ 197              	 .align 1
+ 198              	 .global IRQ12_Handler
+ 199              	 .code 16
+ 200              	 .thumb_func
+ 202              	IRQ12_Handler:
+ 203 0000 08B5     	 push {r3,lr}
+ 204 0002 0248     	 ldr r0,.L6
+ 205 0004 FFF7FEFF 	 bl SPI_SLAVE_lTransmitHandler
+ 206              	 
+ 207 0008 08BD     	 pop {r3,pc}
+ 208              	.L7:
+ 209 000a C046     	 .align 2
+ 210              	.L6:
+ 211 000c 00000000 	 .word .LANCHOR0
+ 213              	 .section .text.IRQ10_Handler,"ax",%progbits
+ 214              	 .align 1
+ 215              	 .global IRQ10_Handler
+ 216              	 .code 16
+ 217              	 .thumb_func
+ 219              	IRQ10_Handler:
+ 220 0000 08B5     	 push {r3,lr}
+ 221 0002 0248     	 ldr r0,.L9
+ 222 0004 FFF7FEFF 	 bl SPI_SLAVE_lReceiveHandler
+ 223              	 
+ 224 0008 08BD     	 pop {r3,pc}
+ 225              	.L10:
+ 226 000a C046     	 .align 2
+ 227              	.L9:
+ 228 000c 00000000 	 .word .LANCHOR0
+ 230              	 .global SPI_SLAVE_0
+ 231              	 .global SPI_SLAVE_0_runtime
+ 232              	 .global SPI_SLAVE_0_conf
+ 233              	 .global SPI_SLAVE_0_slavesel_pin_config
+ 234              	 .global SPI_SLAVE_0_sclk_pin_config
+ 235              	 .global SPI_SLAVE_0_mosi_pin
+ 236              	 .global SPI_SLAVE_0_mosi_pin_config
+ 237              	 .global SPI_SLAVE_0_miso_pin
+ 238              	 .global SPI_SLAVE_0_mosi1_pin_config
+ 239              	 .global SPI_SLAVE_0_channel_config
+ 240              	 .section .rodata.SPI_SLAVE_0_miso_pin,"a",%progbits
+ 241              	 .align 2
+ 244              	SPI_SLAVE_0_miso_pin:
+ 245 0000 00010440 	 .word 1074004224
+ 246 0004 00000000 	 .word SPI_SLAVE_0_mosi1_pin_config
+ 247 0008 00       	 .byte 0
+ 248 0009 05       	 .byte 5
+ 249 000a 0000     	 .space 2
+ 250              	 .section .rodata.SPI_SLAVE_0_channel_config,"a",%progbits
+ 251              	 .align 2
+ 252              	 .set .LANCHOR4,.+0
+ 255              	SPI_SLAVE_0_channel_config:
+ 256 0000 00000000 	 .space 5
+ 256      00
+ 257 0005 01       	 .byte 1
+ 258 0006 0000     	 .space 2
+ 259 0008 0000     	 .short 0
+ 260 000a 0000     	 .space 2
+ 261              	 .section .rodata.SPI_SLAVE_0_mosi_pin_config,"a",%progbits
+ 262              	 .align 2
+ 263              	 .set .LANCHOR3,.+0
+ 266              	SPI_SLAVE_0_mosi_pin_config:
+ 267 0000 00       	 .byte 0
+ 268 0001 00       	 .byte 0
+ 269 0002 0000     	 .space 2
+ 270 0004 01000000 	 .word 1
+ 271              	 .section .rodata.SPI_SLAVE_0_conf,"a",%progbits
+ 272              	 .align 2
+ 275              	SPI_SLAVE_0_conf:
+ 276 0000 00000000 	 .word SPI_SLAVE_0_channel_config
+ 277 0004 00000000 	 .word SPI_SLAVE_0_miso_pin
+ 278 0008 00000000 	 .word SPI_SLAVE_0_mosi_pin
+ 279 000c 00000000 	 .word SPI_SLAVE_0_init
+ 280 0010 00000000 	 .word 0
+ 281 0014 00000000 	 .word 0
+ 282 0018 00000000 	 .word 0
+ 283 001c 00000000 	 .word 0
+ 284 0020 00       	 .byte 0
+ 285 0021 00       	 .byte 0
+ 286 0022 04       	 .byte 4
+ 287 0023 04       	 .byte 4
+ 288 0024 00       	 .byte 0
+ 289 0025 03       	 .byte 3
+ 290 0026 02       	 .byte 2
+ 291 0027 00       	 .space 1
+ 292              	 .section .rodata.SPI_SLAVE_0_mosi_pin,"a",%progbits
+ 293              	 .align 2
+ 296              	SPI_SLAVE_0_mosi_pin:
+ 297 0000 00010440 	 .word 1074004224
+ 298 0004 00000000 	 .word SPI_SLAVE_0_mosi_pin_config
+ 299 0008 00       	 .byte 0
+ 300 0009 00       	 .byte 0
+ 301 000a 0000     	 .space 2
+ 302              	 .section .rodata.SPI_SLAVE_0_mosi1_pin_config,"a",%progbits
+ 303              	 .align 2
+ 304              	 .set .LANCHOR5,.+0
+ 307              	SPI_SLAVE_0_mosi1_pin_config:
+ 308 0000 88       	 .byte -120
+ 309 0001 000000   	 .space 3
+ 310 0004 01000000 	 .word 1
+ 311              	 .section .data.SPI_SLAVE_0_runtime,"aw",%progbits
+ 312              	 .align 2
+ 315              	SPI_SLAVE_0_runtime:
+ 316 0000 00000000 	 .space 24
+ 316      00000000 
+ 316      00000000 
+ 316      00000000 
+ 316      00000000 
+ 317 0018 00       	 .byte 0
+ 318 0019 01       	 .byte 1
+ 319 001a 00       	 .byte 0
+ 320 001b 00       	 .byte 0
+ 321              	 .section .data.SPI_SLAVE_0,"aw",%progbits
+ 322              	 .align 2
+ 323              	 .set .LANCHOR0,.+0
+ 326              	SPI_SLAVE_0:
+ 327 0000 00000048 	 .word 1207959552
+ 328 0004 00000000 	 .word SPI_SLAVE_0_conf
+ 329 0008 00000000 	 .word SPI_SLAVE_0_runtime
+ 330              	 .section .rodata.SPI_SLAVE_0_sclk_pin_config,"a",%progbits
+ 331              	 .align 2
+ 332              	 .set .LANCHOR1,.+0
+ 335              	SPI_SLAVE_0_sclk_pin_config:
+ 336 0000 00       	 .byte 0
+ 337 0001 00       	 .byte 0
+ 338 0002 0000     	 .space 2
+ 339 0004 01000000 	 .word 1
+ 340              	 .section .rodata.SPI_SLAVE_0_slavesel_pin_config,"a",%progbits
+ 341              	 .align 2
+ 342              	 .set .LANCHOR2,.+0
+ 345              	SPI_SLAVE_0_slavesel_pin_config:
+ 346 0000 00       	 .byte 0
+ 347 0001 00       	 .byte 0
+ 348 0002 0000     	 .space 2
+ 349 0004 01000000 	 .word 1
+ 350              	 .ident "GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20141119 (release) [ARM/embedded-4_9-branch revision 218278]"
 DEFINED SYMBOLS
                             *ABS*:00000000 spi_slave_conf.c
     {standard input}:15     .text.XMC_SPI_CH_SetInputSource.constprop.1:00000000 $t
     {standard input}:19     .text.XMC_SPI_CH_SetInputSource.constprop.1:00000000 XMC_SPI_CH_SetInputSource.constprop.1
     {standard input}:39     .text.SPI_SLAVE_0_init:00000000 $t
     {standard input}:44     .text.SPI_SLAVE_0_init:00000000 SPI_SLAVE_0_init
-    {standard input}:181    .text.SPI_SLAVE_0_init:0000012c $d
-    {standard input}:194    .text.IRQ10_Handler:00000000 $t
-    {standard input}:199    .text.IRQ10_Handler:00000000 IRQ10_Handler
-    {standard input}:208    .text.IRQ10_Handler:0000000c $d
-    {standard input}:211    .text.IRQ9_Handler:00000000 $t
-    {standard input}:216    .text.IRQ9_Handler:00000000 IRQ9_Handler
-    {standard input}:225    .text.IRQ9_Handler:0000000c $d
-    {standard input}:323    .data.SPI_SLAVE_0:00000000 SPI_SLAVE_0
-    {standard input}:312    .data.SPI_SLAVE_0_runtime:00000000 SPI_SLAVE_0_runtime
-    {standard input}:272    .rodata.SPI_SLAVE_0_conf:00000000 SPI_SLAVE_0_conf
-    {standard input}:342    .rodata.SPI_SLAVE_0_slavesel_pin_config:00000000 SPI_SLAVE_0_slavesel_pin_config
-    {standard input}:332    .rodata.SPI_SLAVE_0_sclk_pin_config:00000000 SPI_SLAVE_0_sclk_pin_config
-    {standard input}:293    .rodata.SPI_SLAVE_0_mosi_pin:00000000 SPI_SLAVE_0_mosi_pin
-    {standard input}:263    .rodata.SPI_SLAVE_0_mosi_pin_config:00000000 SPI_SLAVE_0_mosi_pin_config
-    {standard input}:241    .rodata.SPI_SLAVE_0_miso_pin:00000000 SPI_SLAVE_0_miso_pin
-    {standard input}:304    .rodata.SPI_SLAVE_0_mosi1_pin_config:00000000 SPI_SLAVE_0_mosi1_pin_config
-    {standard input}:252    .rodata.SPI_SLAVE_0_channel_config:00000000 SPI_SLAVE_0_channel_config
-    {standard input}:238    .rodata.SPI_SLAVE_0_miso_pin:00000000 $d
-    {standard input}:248    .rodata.SPI_SLAVE_0_channel_config:00000000 $d
-    {standard input}:259    .rodata.SPI_SLAVE_0_mosi_pin_config:00000000 $d
-    {standard input}:269    .rodata.SPI_SLAVE_0_conf:00000000 $d
-    {standard input}:290    .rodata.SPI_SLAVE_0_mosi_pin:00000000 $d
-    {standard input}:300    .rodata.SPI_SLAVE_0_mosi1_pin_config:00000000 $d
-    {standard input}:309    .data.SPI_SLAVE_0_runtime:00000000 $d
-    {standard input}:319    .data.SPI_SLAVE_0:00000000 $d
-    {standard input}:328    .rodata.SPI_SLAVE_0_sclk_pin_config:00000000 $d
-    {standard input}:338    .rodata.SPI_SLAVE_0_slavesel_pin_config:00000000 $d
+    {standard input}:185    .text.SPI_SLAVE_0_init:00000138 $d
+    {standard input}:197    .text.IRQ12_Handler:00000000 $t
+    {standard input}:202    .text.IRQ12_Handler:00000000 IRQ12_Handler
+    {standard input}:211    .text.IRQ12_Handler:0000000c $d
+    {standard input}:214    .text.IRQ10_Handler:00000000 $t
+    {standard input}:219    .text.IRQ10_Handler:00000000 IRQ10_Handler
+    {standard input}:228    .text.IRQ10_Handler:0000000c $d
+    {standard input}:326    .data.SPI_SLAVE_0:00000000 SPI_SLAVE_0
+    {standard input}:315    .data.SPI_SLAVE_0_runtime:00000000 SPI_SLAVE_0_runtime
+    {standard input}:275    .rodata.SPI_SLAVE_0_conf:00000000 SPI_SLAVE_0_conf
+    {standard input}:345    .rodata.SPI_SLAVE_0_slavesel_pin_config:00000000 SPI_SLAVE_0_slavesel_pin_config
+    {standard input}:335    .rodata.SPI_SLAVE_0_sclk_pin_config:00000000 SPI_SLAVE_0_sclk_pin_config
+    {standard input}:296    .rodata.SPI_SLAVE_0_mosi_pin:00000000 SPI_SLAVE_0_mosi_pin
+    {standard input}:266    .rodata.SPI_SLAVE_0_mosi_pin_config:00000000 SPI_SLAVE_0_mosi_pin_config
+    {standard input}:244    .rodata.SPI_SLAVE_0_miso_pin:00000000 SPI_SLAVE_0_miso_pin
+    {standard input}:307    .rodata.SPI_SLAVE_0_mosi1_pin_config:00000000 SPI_SLAVE_0_mosi1_pin_config
+    {standard input}:255    .rodata.SPI_SLAVE_0_channel_config:00000000 SPI_SLAVE_0_channel_config
+    {standard input}:241    .rodata.SPI_SLAVE_0_miso_pin:00000000 $d
+    {standard input}:251    .rodata.SPI_SLAVE_0_channel_config:00000000 $d
+    {standard input}:262    .rodata.SPI_SLAVE_0_mosi_pin_config:00000000 $d
+    {standard input}:272    .rodata.SPI_SLAVE_0_conf:00000000 $d
+    {standard input}:293    .rodata.SPI_SLAVE_0_mosi_pin:00000000 $d
+    {standard input}:303    .rodata.SPI_SLAVE_0_mosi1_pin_config:00000000 $d
+    {standard input}:312    .data.SPI_SLAVE_0_runtime:00000000 $d
+    {standard input}:322    .data.SPI_SLAVE_0:00000000 $d
+    {standard input}:331    .rodata.SPI_SLAVE_0_sclk_pin_config:00000000 $d
+    {standard input}:341    .rodata.SPI_SLAVE_0_slavesel_pin_config:00000000 $d
 
 UNDEFINED SYMBOLS
 XMC_GPIO_Init
 XMC_SPI_CH_InitEx
+XMC_USIC_CH_TXFIFO_Configure
+XMC_USIC_CH_RXFIFO_Configure
 XMC_USIC_CH_SetInterruptNodePointer
+XMC_USIC_CH_TXFIFO_SetInterruptNodePointer
+XMC_USIC_CH_RXFIFO_SetInterruptNodePointer
 XMC_SCU_SetInterruptControl
 XMC_GPIO_SetHardwareControl
 SPI_SLAVE_lTransmitHandler

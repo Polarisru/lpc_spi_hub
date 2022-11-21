@@ -788,6 +788,7 @@
   </provided>
   <provided xsi:type="ResourceModel:BitField" name="DPTR" URI="http://resources/14.0.0/peripheral/usic/0/ch1_rbctr/dptr" value="0x00000000" toolTipHelpDescription="Data Pointer" defaultValue="0x00000000" startPos="0" stopPos="5" accessPermission="w" maxValue="63" minValue="0"/>
   <provided xsi:type="ResourceModel:ResourceGroup" name="0" URI="http://resources/14.0.0/peripheral/usic/0/channel/0">
+    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@hwResources.0"/>
     <resourcesList name="brg" requiredResourceUri="http://resources/14.0.0/peripheral/usic/0/ch0_brg"/>
     <resourcesList name="byp" requiredResourceUri="http://resources/14.0.0/peripheral/usic/0/ch0_byp"/>
     <resourcesList name="bypcr" requiredResourceUri="http://resources/14.0.0/peripheral/usic/0/ch0_bypcr"/>

@@ -79,13 +79,13 @@ __WEAK DAVE_STATUS_t DAVE_Init(void)
    } 
   if (init_status == DAVE_STATUS_SUCCESS)
   {
-	 /**  Initialization of SYSTIMER APP instance SYSTIMER_0 */
-	 init_status = (DAVE_STATUS_t)SYSTIMER_Init(&SYSTIMER_0); 
+	 /**  Initialization of SPI_SLAVE APP instance SPI_SLAVE_0 */
+	 init_status = (DAVE_STATUS_t)SPI_SLAVE_Init(&SPI_SLAVE_0); 
    } 
   if (init_status == DAVE_STATUS_SUCCESS)
   {
-	 /**  Initialization of SPI_SLAVE APP instance SPI_SLAVE_0 */
-	 init_status = (DAVE_STATUS_t)SPI_SLAVE_Init(&SPI_SLAVE_0); 
+	 /**  Initialization of SYSTIMER APP instance SYSTIMER_0 */
+	 init_status = (DAVE_STATUS_t)SYSTIMER_Init(&SYSTIMER_0); 
    }  
   return init_status;
 } /**  End of function DAVE_Init */

@@ -61,8 +61,11 @@
 #define UART_PATCH_VERSION (14U)
 
 
-#define UART_TX_DIRECT_USED
-#define UART_RX_DIRECT_USED
+#define UART_0_TX_HANDLER  IRQ_Hdlr_11
+#define UART_0_RX_HANDLER  IRQ_Hdlr_9
+#define UART_TX_INTERRUPT_USED
+#define UART_RX_INTERRUPT_USED
+#define UART_IRQ_USED
 
 #endif /* End of UART_CONF_H */
 /*CODE_BLOCK_END*/

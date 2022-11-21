@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ResourceModel:Peripheral xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ResourceModel="http://www.infineon.com/Davex/Resource.ecore" URI="http://resources/14.0.1/peripheral/cpu/0" description="Cortex-M0 Private Peripheral Block" baseAddress="0xE000E000">
-  <provided xsi:type="ResourceModel:ResourceGroup" name="hardfault" URI="http://resources/14.0.1/peripheral/cpu/0/exception/hardfault">
-    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/CPU_CTRL_XMC1/v4_0_12/CPU_CTRL_XMC1_0.app#//@hwResources.8"/>
-  </provided>
   <provided xsi:type="ResourceModel:ResourceGroup" name="IRQ9_Handler" URI="http://resources/14.0.1/peripheral/cpu/0/nvic/interrupt/9">
-    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/I2C_SLAVE/v4_0_20/I2C_SLAVE_0.app#//@hwResources.2"/>
+    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/UART/v4_1_14/UART_0.app#//@hwResources.4"/>
     <resourcesList name="iser_setena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena9"/>
     <resourcesList name="icer_clrena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_icer/clrena9"/>
     <resourcesList name="ispr_setpend" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_ispr/setpend9"/>
@@ -153,7 +150,7 @@
   </provided>
   <provided xsi:type="ResourceModel:BitField" name="setena9" URI="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena9" value="0" toolTipHelpDescription="Writing 0 to a SETENA bit has no effect, writing 1 to a bit enables the corresponding interrupt." defaultValue="0" startPos="9" stopPos="9" accessPermission="rw" maxValue="1" minValue="0"/>
   <provided xsi:type="ResourceModel:ResourceGroup" name="IRQ10_Handler" URI="http://resources/14.0.1/peripheral/cpu/0/nvic/interrupt/10">
-    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/I2C_SLAVE/v4_0_20/I2C_SLAVE_0.app#//@hwResources.1"/>
+    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@hwResources.8"/>
     <resourcesList name="iser_setena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena10"/>
     <resourcesList name="icer_clrena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_icer/clrena10"/>
     <resourcesList name="ispr_setpend" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_ispr/setpend10"/>
@@ -169,7 +166,11 @@
     <enumValues xsi:type="ResourceModel:RegEnumValue" value="#11" description="Select source A or B"/>
   </provided>
   <provided xsi:type="ResourceModel:BitField" name="setena10" URI="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena10" value="0" toolTipHelpDescription="Writing 0 to a SETENA bit has no effect, writing 1 to a bit enables the corresponding interrupt." defaultValue="0" startPos="10" stopPos="10" accessPermission="rw" maxValue="1" minValue="0"/>
+  <provided xsi:type="ResourceModel:ResourceGroup" name="hardfault" URI="http://resources/14.0.1/peripheral/cpu/0/exception/hardfault">
+    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/CPU_CTRL_XMC1/v4_0_12/CPU_CTRL_XMC1_0.app#//@hwResources.8"/>
+  </provided>
   <provided xsi:type="ResourceModel:ResourceGroup" name="IRQ12_Handler" URI="http://resources/14.0.1/peripheral/cpu/0/nvic/interrupt/12">
+    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@hwResources.7"/>
     <resourcesList name="iser_setena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena12"/>
     <resourcesList name="icer_clrena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_icer/clrena12"/>
     <resourcesList name="ispr_setpend" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_ispr/setpend12"/>
@@ -186,6 +187,7 @@
   </provided>
   <provided xsi:type="ResourceModel:BitField" name="setena12" URI="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena12" value="0" toolTipHelpDescription="Writing 0 to a SETENA bit has no effect, writing 1 to a bit enables the corresponding interrupt." defaultValue="0" startPos="12" stopPos="12" accessPermission="rw" maxValue="1" minValue="0"/>
   <provided xsi:type="ResourceModel:ResourceGroup" name="IRQ11_Handler" URI="http://resources/14.0.1/peripheral/cpu/0/nvic/interrupt/11">
+    <upwardMapList xsi:type="ResourceModel:HWResource" href="../../APPS/UART/v4_1_14/UART_0.app#//@hwResources.3"/>
     <resourcesList name="iser_setena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_iser/setena11"/>
     <resourcesList name="icer_clrena" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_icer/clrena11"/>
     <resourcesList name="ispr_setpend" requiredResourceUri="http://resources/14.0.1/peripheral/cpu/0/nvic_ispr/setpend11"/>

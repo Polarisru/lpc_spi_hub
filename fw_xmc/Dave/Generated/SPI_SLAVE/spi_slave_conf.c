@@ -130,10 +130,10 @@ const SPI_SLAVE_CONFIG_t SPI_SLAVE_0_conf =
   .slave_select_cbhandler = NULL,
   .transmit_mode = SPI_SLAVE_TRANSFER_MODE_INTERRUPT,
   .receive_mode = SPI_SLAVE_TRANSFER_MODE_INTERRUPT,
-  .tx_fifo_size = XMC_USIC_CH_FIFO_DISABLED,
-  .rx_fifo_size = XMC_USIC_CH_FIFO_DISABLED,
+  .tx_fifo_size = XMC_USIC_CH_FIFO_SIZE_16WORDS,
+  .rx_fifo_size = XMC_USIC_CH_FIFO_SIZE_16WORDS,
   .spi_configured_mode = XMC_SPI_CH_MODE_STANDARD,
-  .tx_sr = 1U,
+  .tx_sr = 3U,
 #ifdef USIC0_C0_DX0_P1_0
   .dx0_source = (SPI_SLAVE_INPUT_t)USIC0_C0_DX0_P1_0,
 #else
@@ -175,7 +175,7 @@ SPI_SLAVE_STATUS_t SPI_SLAVE_0_init()
   XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT1_BASE, 0U, &SPI_SLAVE_0_mosi_pin_config);
   /* Initialize USIC channel in SPI slave mode*/
   XMC_SPI_CH_Init(XMC_SPI0_CH0, &SPI_SLAVE_0_channel_config);
-  XMC_SPI_CH_SetBitOrderLsbFirst(XMC_SPI0_CH0);
+  XMC_SPI_CH_SetBitOrderMsbFirst(XMC_SPI0_CH0);
 
   XMC_SPI_CH_SetWordLength(XMC_SPI0_CH0, (uint8_t)8U);
   XMC_SPI_CH_SetFrameLength(XMC_SPI0_CH0, (uint8_t)64U);
@@ -188,25 +188,35 @@ SPI_SLAVE_STATUS_t SPI_SLAVE_0_init()
   XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX1, 3U);
   XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX2, 6U);
   XMC_SPI_CH_EnableInputInversion(XMC_SPI0_CH0, XMC_SPI_CH_INPUT_SLAVE_SELIN);
-  /*Set service request for transmit interrupt*/
-  XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER,
-     1U);
-  /*Set service request for receive interrupt*/
-  XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_RECEIVE,
-     0U);
-  XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE,
-     0U);
+  /*Configure transmit FIFO*/
+  XMC_USIC_CH_TXFIFO_Configure(XMC_SPI0_CH0,
+        16U,
+        XMC_USIC_CH_FIFO_SIZE_16WORDS,
+        1U);
+  /*Configure receive FIFO*/
+  XMC_USIC_CH_RXFIFO_Configure(XMC_SPI0_CH0,
+        0U,
+        XMC_USIC_CH_FIFO_SIZE_16WORDS,
+        0U);
   /*Set service request for SPI protocol events*/
   XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL,
-     2U);
+     4U);
+  /*Set service request for tx FIFO transmit interrupt*/
+  XMC_USIC_CH_TXFIFO_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_TXFIFO_INTERRUPT_NODE_POINTER_STANDARD,
+      3U);
+  /*Set service request for rx FIFO receive interrupt*/
+  XMC_USIC_CH_RXFIFO_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_RXFIFO_INTERRUPT_NODE_POINTER_STANDARD,
+       0x1U);
+  XMC_USIC_CH_RXFIFO_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_RXFIFO_INTERRUPT_NODE_POINTER_ALTERNATE,
+       0x1U);
   /*Set priority and enable NVIC node for transmit interrupt*/
-  NVIC_SetPriority((IRQn_Type)10, 3U);
+  NVIC_SetPriority((IRQn_Type)12, 3U);
+  XMC_SCU_SetInterruptControl(12, XMC_SCU_IRQCTRL_USIC0_SR3_IRQ12);
+  NVIC_EnableIRQ((IRQn_Type)12);
+  /*Set priority and enable NVIC node for receive interrupt*/
+  NVIC_SetPriority((IRQn_Type)10, 2U);
   XMC_SCU_SetInterruptControl(10, XMC_SCU_IRQCTRL_USIC0_SR1_IRQ10);
   NVIC_EnableIRQ((IRQn_Type)10);
-  /*Set priority and enable NVIC node for receive interrupt*/
-  NVIC_SetPriority((IRQn_Type)9, 2U);
-  XMC_SCU_SetInterruptControl(9, XMC_SCU_IRQCTRL_USIC0_SR0_IRQ9);
-  NVIC_EnableIRQ((IRQn_Type)9);
   /* Start SPI */
   XMC_SPI_CH_Start(XMC_SPI0_CH0);
 
