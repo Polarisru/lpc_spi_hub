@@ -59,6 +59,8 @@ extern "C" {
 #endif
   
 /*Extern declaration for callback functions and SPI_SLAVE APP instance handles*/
+  extern void SPI_GetByte(void);
+  extern void SPI_SlaveSelected(void);
 
   extern SPI_SLAVE_t SPI_SLAVE_0; 
                     

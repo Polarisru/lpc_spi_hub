@@ -176,12 +176,12 @@ UART_STATUS_t UART_0_init()
   XMC_USIC_CH_SetInputSource(XMC_UART0_CH1, XMC_USIC_CH_INPUT_DX5, 0U);
   /*Configure transmit FIFO*/
   XMC_USIC_CH_TXFIFO_Configure(XMC_UART0_CH1,
-        48U,
+        16U,
         XMC_USIC_CH_FIFO_SIZE_16WORDS,
         1U);
   /*Configure receive FIFO*/
   XMC_USIC_CH_RXFIFO_Configure(XMC_UART0_CH1,
-        32U,
+        0U,
         XMC_USIC_CH_FIFO_SIZE_16WORDS,
         0U);
   /* Start UART */
@@ -192,7 +192,7 @@ UART_STATUS_t UART_0_init()
 
   /*Set service request for UART protocol events*/
   XMC_USIC_CH_SetInterruptNodePointer(XMC_UART0_CH1, XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL,
-     4U);
+     5U);
   /*Set service request for tx FIFO transmit interrupt*/
   XMC_USIC_CH_TXFIFO_SetInterruptNodePointer(XMC_UART0_CH1, XMC_USIC_CH_TXFIFO_INTERRUPT_NODE_POINTER_STANDARD,
       2U);

@@ -55,9 +55,6 @@
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.2"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.7"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.8"/>
-  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.12"/>
-  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.13"/>
-  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.14"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.16"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.17"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.18"/>
@@ -70,4 +67,8 @@
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.25"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.26"/>
   <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.27"/>
+  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.15"/>
+  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.9"/>
+  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.10"/>
+  <hwConnections href="APPS/SPI_SLAVE/v4_0_10/SPI_SLAVE_0.app#//@connections.11"/>
 </ApplicationModel:ApplicationData>

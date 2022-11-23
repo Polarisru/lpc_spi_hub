@@ -19,7 +19,7 @@
 				<configuration artifactName="${ProjName}" buildArtefactType="com.ifx.xmc4000.appBuildArtefactType" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=com.ifx.xmc4000.appBuildArtefactType,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" description="" id="com.ifx.xmc4000.appRelease.1273981693" name="Release" parent="com.ifx.xmc4000.appRelease">
 					<folderInfo id="com.ifx.xmc4000.appRelease.1273981693." name="/" resourcePath="">
 						<toolChain id="com.ifx.xmc4000.appRelease.toolChain.815996252" name="ARM-GCC Application" superClass="com.ifx.xmc4000.appRelease.toolChain">
-							<option id="com.ifx.xmc4000.option.debugging.level.315392739" name="Debug level" superClass="com.ifx.xmc4000.option.debugging.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.debugging.level.none" valueType="enumerated"/>
+							<option id="com.ifx.xmc4000.option.debugging.level.315392739" name="Debug level" superClass="com.ifx.xmc4000.option.debugging.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.debugging.level.max" valueType="enumerated"/>
 							<option id="com.ifx.xmc4000.option.targetPath.577047654" name="Target Path" superClass="com.ifx.xmc4000.option.targetPath" value="/DeviceRoot/Microcontrollers/Boards/XMC1400 Arduino Kit/XMC1402-T038x0200" valueType="string"/>
 							<option id="com.ifx.xmc4000.option.target.processor.730696693" name="Processor" superClass="com.ifx.xmc4000.option.target.processor" value="org.eclipse.cdt.cross.arm.gnu.base.option.mcpu.cortex-m0" valueType="enumerated"/>
 							<option id="com.ifx.xmc4000.option.target.fpu.2075076555" name="Fpu (-mfpu)" superClass="com.ifx.xmc4000.option.target.fpu" value="No floating point hardware available" valueType="enumerated"/>
@@ -65,7 +65,7 @@
 							</tool>
 							<tool id="com.ifx.xmc4000.appRelease.linker.232290642" name="ARM-GCC C Linker" superClass="com.ifx.xmc4000.appRelease.linker">
 								<option id="com.ifx.xmc4000.appLinker.option.misc.fpu.1581831850" name="Fpu (-mfpu)" superClass="com.ifx.xmc4000.appLinker.option.misc.fpu" value="No floating point hardware available" valueType="enumerated"/>
-								<option id="com.ifx.xmc4000.appLinker.option.nosys.specs.1621286535" superClass="com.ifx.xmc4000.appLinker.option.nosys.specs" value="true" valueType="boolean"/>
+								<option id="com.ifx.xmc4000.appLinker.option.nosys.specs.1621286535" name="Provide default newlib system calls (-specs=nosys.specs)" superClass="com.ifx.xmc4000.appLinker.option.nosys.specs" value="true" valueType="boolean"/>
 								<inputType id="com.ifx.xmc4000.appLinker.inputType.271652987" name="ARM-GCC for XMC Linker Input Type" superClass="com.ifx.xmc4000.appLinker.inputType">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -73,7 +73,7 @@
 							</tool>
 							<tool id="com.ifx.xmc4000.appRelease.cpplinker.899507701" name="ARM-GCC C++ Linker" superClass="com.ifx.xmc4000.appRelease.cpplinker">
 								<option id="com.ifx.xmc4000.appCppLinker.option.misc.fpu.1692485341" name="Fpu (-mfpu)" superClass="com.ifx.xmc4000.appCppLinker.option.misc.fpu" value="No floating point hardware available" valueType="enumerated"/>
-								<option id="com.ifx.xmc4000.appCppLinker.option.nosys.specs.1405674928" superClass="com.ifx.xmc4000.appCppLinker.option.nosys.specs" value="true" valueType="boolean"/>
+								<option id="com.ifx.xmc4000.appCppLinker.option.nosys.specs.1405674928" name="Provide default newlib system calls (-specs=nosys.specs)" superClass="com.ifx.xmc4000.appCppLinker.option.nosys.specs" value="true" valueType="boolean"/>
 							</tool>
 							<tool id="com.ifx.xmc4000.libLinker.1267018980" name="ARM-GCC Archiver" superClass="com.ifx.xmc4000.libLinker"/>
 							<tool id="com.ifx.xmc4000.appRelease.createflash.166470795" name="ARM-GCC Create Flash Image" superClass="com.ifx.xmc4000.appRelease.createflash"/>
@@ -87,6 +87,7 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="ilg.gnuarmeclipse.managedbuild.packs"/>
 		</cconfiguration>
 		<cconfiguration id="com.ifx.xmc4000.appDebug.1455172843">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.ifx.xmc4000.appDebug.1455172843" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -152,7 +153,7 @@
 							</tool>
 							<tool id="com.ifx.xmc4000.appDebug.linker.397513635" name="ARM-GCC C Linker" superClass="com.ifx.xmc4000.appDebug.linker">
 								<option id="com.ifx.xmc4000.appLinker.option.misc.fpu.1402298422" name="Fpu (-mfpu)" superClass="com.ifx.xmc4000.appLinker.option.misc.fpu" value="No floating point hardware available" valueType="enumerated"/>
-								<option id="com.ifx.xmc4000.appLinker.option.nosys.specs.383821352" superClass="com.ifx.xmc4000.appLinker.option.nosys.specs" value="true" valueType="boolean"/>
+								<option id="com.ifx.xmc4000.appLinker.option.nosys.specs.383821352" name="Provide default newlib system calls (-specs=nosys.specs)" superClass="com.ifx.xmc4000.appLinker.option.nosys.specs" value="true" valueType="boolean"/>
 								<inputType id="com.ifx.xmc4000.appLinker.inputType.1396362290" name="ARM-GCC for XMC Linker Input Type" superClass="com.ifx.xmc4000.appLinker.inputType">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -160,7 +161,7 @@
 							</tool>
 							<tool id="com.ifx.xmc4000.appDebug.cpplinker.544563557" name="ARM-GCC C++ Linker" superClass="com.ifx.xmc4000.appDebug.cpplinker">
 								<option id="com.ifx.xmc4000.appCppLinker.option.misc.fpu.1529334447" name="Fpu (-mfpu)" superClass="com.ifx.xmc4000.appCppLinker.option.misc.fpu" value="No floating point hardware available" valueType="enumerated"/>
-								<option id="com.ifx.xmc4000.appCppLinker.option.nosys.specs.2111690752" superClass="com.ifx.xmc4000.appCppLinker.option.nosys.specs" value="true" valueType="boolean"/>
+								<option id="com.ifx.xmc4000.appCppLinker.option.nosys.specs.2111690752" name="Provide default newlib system calls (-specs=nosys.specs)" superClass="com.ifx.xmc4000.appCppLinker.option.nosys.specs" value="true" valueType="boolean"/>
 							</tool>
 							<tool id="com.ifx.xmc4000.libLinker.350394641" name="ARM-GCC Archiver" superClass="com.ifx.xmc4000.libLinker"/>
 							<tool id="com.ifx.xmc4000.appDebug.createflash.969782957" name="ARM-GCC Create Flash Image" superClass="com.ifx.xmc4000.appDebug.createflash"/>
@@ -198,4 +199,13 @@
 	<storageModule moduleId="org.eclipse.cdt.core.language.mapping">
 		<project-mappings/>
 	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/xmc_spi_hub"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/xmc_spi_hub"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

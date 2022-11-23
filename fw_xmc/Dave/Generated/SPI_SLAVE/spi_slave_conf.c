@@ -67,10 +67,10 @@ const XMC_SPI_CH_CONFIG_t SPI_SLAVE_0_channel_config =
 /*MISO pin configuration*/
 const XMC_GPIO_CONFIG_t SPI_SLAVE_0_mosi1_pin_config   = 
 { 
-#ifdef P1_5_AF_U0C0_DOUT0
-  .mode             = (XMC_GPIO_MODE_OUTPUT_PUSH_PULL_ALT2 | P1_5_AF_U0C0_DOUT0), 
+#ifdef P2_1_AF_U0C0_DOUT0
+  .mode             = (XMC_GPIO_MODE_OUTPUT_PUSH_PULL_ALT6 | P2_1_AF_U0C0_DOUT0), 
 #else
-  .mode             = XMC_GPIO_MODE_OUTPUT_PUSH_PULL_ALT2,
+  .mode             = XMC_GPIO_MODE_OUTPUT_PUSH_PULL_ALT6,
 #endif
   .output_level     = XMC_GPIO_OUTPUT_LEVEL_HIGH
 };
@@ -78,10 +78,10 @@ const XMC_GPIO_CONFIG_t SPI_SLAVE_0_mosi1_pin_config   =
 /*MISO pin configuration used for initializing*/
 const SPI_SLAVE_PIN_CONFIG_t SPI_SLAVE_0_miso_pin = 
 {
-  .port = (XMC_GPIO_PORT_t *)PORT1_BASE,
+  .port = (XMC_GPIO_PORT_t *)PORT2_BASE,
   .config = &SPI_SLAVE_0_mosi1_pin_config,
   .hw_control = XMC_GPIO_HWCTRL_DISABLED,
-  .pin = 5U
+  .pin = 1U
 };
 
 /*MOSI pin configuration*/
@@ -95,7 +95,7 @@ const XMC_GPIO_CONFIG_t SPI_SLAVE_0_mosi_pin_config   =
 /*MOSI pin configuration used for initializing*/
 const SPI_SLAVE_PIN_CONFIG_t SPI_SLAVE_0_mosi_pin = 
 {
-  .port = (XMC_GPIO_PORT_t *)PORT1_BASE,
+  .port = (XMC_GPIO_PORT_t *)PORT2_BASE,
   .config = &SPI_SLAVE_0_mosi_pin_config,
   .hw_control = XMC_GPIO_HWCTRL_DISABLED,
   .pin = 0U
@@ -125,17 +125,17 @@ const SPI_SLAVE_CONFIG_t SPI_SLAVE_0_conf =
   .mosi0_pin_config = &SPI_SLAVE_0_mosi_pin,
   .fptr_spi_slave_config = SPI_SLAVE_0_init,
   .tx_cbhandler = NULL,
-  .rx_cbhandler = NULL,
+  .rx_cbhandler = SPI_GetByte,
   .parity_error_cbhandler = NULL,
-  .slave_select_cbhandler = NULL,
+  .slave_select_cbhandler = SPI_SlaveSelected,
   .transmit_mode = SPI_SLAVE_TRANSFER_MODE_INTERRUPT,
   .receive_mode = SPI_SLAVE_TRANSFER_MODE_INTERRUPT,
-  .tx_fifo_size = XMC_USIC_CH_FIFO_SIZE_16WORDS,
-  .rx_fifo_size = XMC_USIC_CH_FIFO_SIZE_16WORDS,
+  .tx_fifo_size = XMC_USIC_CH_FIFO_DISABLED,
+  .rx_fifo_size = XMC_USIC_CH_FIFO_DISABLED,
   .spi_configured_mode = XMC_SPI_CH_MODE_STANDARD,
-  .tx_sr = 3U,
-#ifdef USIC0_C0_DX0_P1_0
-  .dx0_source = (SPI_SLAVE_INPUT_t)USIC0_C0_DX0_P1_0,
+  .tx_sr = 4U,
+#ifdef USIC0_C0_DX0_P2_0
+  .dx0_source = (SPI_SLAVE_INPUT_t)USIC0_C0_DX0_P2_0,
 #else
   .dx0_source = SPI_SLAVE_INPUT_INVALID,
 #endif
@@ -168,11 +168,11 @@ SPI_SLAVE_STATUS_t SPI_SLAVE_0_init()
   SPI_SLAVE_0.runtime->rx_busy = false;
 
   /*Configure SCLK pin*/
-  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT1_BASE, 1U, &SPI_SLAVE_0_sclk_pin_config);
+  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT0_BASE, 7U, &SPI_SLAVE_0_sclk_pin_config);
   /*Configure slave select pin*/
-  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT1_BASE, 4U, &SPI_SLAVE_0_slavesel_pin_config);
+  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT0_BASE, 0U, &SPI_SLAVE_0_slavesel_pin_config);
   /*Configure MOSI pin*/
-  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT1_BASE, 0U, &SPI_SLAVE_0_mosi_pin_config);
+  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT2_BASE, 0U, &SPI_SLAVE_0_mosi_pin_config);
   /* Initialize USIC channel in SPI slave mode*/
   XMC_SPI_CH_Init(XMC_SPI0_CH0, &SPI_SLAVE_0_channel_config);
   XMC_SPI_CH_SetBitOrderMsbFirst(XMC_SPI0_CH0);
@@ -181,48 +181,46 @@ SPI_SLAVE_STATUS_t SPI_SLAVE_0_init()
   XMC_SPI_CH_SetFrameLength(XMC_SPI0_CH0, (uint8_t)64U);
 
   /*Set input source path*/
-  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX0, 2U);
+  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX0, 4U);
   XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX3, 0U);
   XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX4, 0U);
-  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX5, 4U);
-  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX1, 3U);
-  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX2, 6U);
+  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX5, 0U);
+  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX1, 2U);
+  XMC_SPI_CH_SetInputSource(XMC_SPI0_CH0, (XMC_SPI_CH_INPUT_t)XMC_USIC_CH_INPUT_DX2, 0U);
   XMC_SPI_CH_EnableInputInversion(XMC_SPI0_CH0, XMC_SPI_CH_INPUT_SLAVE_SELIN);
-  /*Configure transmit FIFO*/
-  XMC_USIC_CH_TXFIFO_Configure(XMC_SPI0_CH0,
-        16U,
-        XMC_USIC_CH_FIFO_SIZE_16WORDS,
-        1U);
-  /*Configure receive FIFO*/
-  XMC_USIC_CH_RXFIFO_Configure(XMC_SPI0_CH0,
-        0U,
-        XMC_USIC_CH_FIFO_SIZE_16WORDS,
-        0U);
+  /*Set service request for transmit interrupt*/
+  XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER,
+     4U);
+  /*Set service request for receive interrupt*/
+  XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_RECEIVE,
+     1U);
+  XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE,
+     1U);
   /*Set service request for SPI protocol events*/
   XMC_USIC_CH_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL,
-     4U);
-  /*Set service request for tx FIFO transmit interrupt*/
-  XMC_USIC_CH_TXFIFO_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_TXFIFO_INTERRUPT_NODE_POINTER_STANDARD,
-      3U);
-  /*Set service request for rx FIFO receive interrupt*/
-  XMC_USIC_CH_RXFIFO_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_RXFIFO_INTERRUPT_NODE_POINTER_STANDARD,
-       0x1U);
-  XMC_USIC_CH_RXFIFO_SetInterruptNodePointer(XMC_SPI0_CH0, XMC_USIC_CH_RXFIFO_INTERRUPT_NODE_POINTER_ALTERNATE,
-       0x1U);
+     3U);
+  XMC_USIC_CH_SetInputTriggerCombinationMode(XMC_SPI0_CH0, XMC_USIC_CH_INPUT_DX2, XMC_USIC_CH_INPUT_COMBINATION_MODE_FALLING_EDGE);
+  /*Enable SPI slave selected event*/
+  XMC_SPI_CH_EnableEvent(XMC_SPI0_CH0, XMC_SPI_CH_EVENT_DX2TIEN_ACTIVATED);
   /*Set priority and enable NVIC node for transmit interrupt*/
-  NVIC_SetPriority((IRQn_Type)12, 3U);
-  XMC_SCU_SetInterruptControl(12, XMC_SCU_IRQCTRL_USIC0_SR3_IRQ12);
-  NVIC_EnableIRQ((IRQn_Type)12);
+  NVIC_SetPriority((IRQn_Type)13, 3U);
+  XMC_SCU_SetInterruptControl(13, XMC_SCU_IRQCTRL_USIC0_SR4_IRQ13);
+  NVIC_EnableIRQ((IRQn_Type)13);
   /*Set priority and enable NVIC node for receive interrupt*/
   NVIC_SetPriority((IRQn_Type)10, 2U);
   XMC_SCU_SetInterruptControl(10, XMC_SCU_IRQCTRL_USIC0_SR1_IRQ10);
   NVIC_EnableIRQ((IRQn_Type)10);
+  /*Set priority and enable NVIC node for SPI protocol interrupt*/
+  NVIC_SetPriority((IRQn_Type)12, 3U);
+  XMC_SCU_SetInterruptControl(12, XMC_SCU_IRQCTRL_USIC0_SR3_IRQ12);
+  NVIC_EnableIRQ((IRQn_Type)12);
+
   /* Start SPI */
   XMC_SPI_CH_Start(XMC_SPI0_CH0);
 
   /* Initialize SPI Slave MISO pin */
-  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT1_BASE, 5U, &SPI_SLAVE_0_mosi1_pin_config);
-  XMC_GPIO_SetHardwareControl((XMC_GPIO_PORT_t *)PORT1_BASE, 5U, XMC_GPIO_HWCTRL_DISABLED);
+  XMC_GPIO_Init((XMC_GPIO_PORT_t *)PORT2_BASE, 1U, &SPI_SLAVE_0_mosi1_pin_config);
+  XMC_GPIO_SetHardwareControl((XMC_GPIO_PORT_t *)PORT2_BASE, 1U, XMC_GPIO_HWCTRL_DISABLED);
 
   return status;
 }
@@ -237,5 +235,11 @@ void SPI_SLAVE_0_TX_HANDLER()
 void SPI_SLAVE_0_RX_HANDLER()
 {
   SPI_SLAVE_lReceiveHandler(&SPI_SLAVE_0);
+}
+
+/*Error ISR*/
+void SPI_SLAVE_0_ERR_HANDLER()
+{
+  SPI_SLAVE_lProtocolHandler(&SPI_SLAVE_0);
 }
 

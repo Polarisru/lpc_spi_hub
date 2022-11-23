@@ -21,6 +21,22 @@
  * code.
  */
 
+volatile uint32_t counter = 0;
+volatile uint32_t len = 0;
+uint8_t data[256];
+uint8_t data_count = 0;
+
+void SPI_SlaveSelected(void)
+{
+  counter++;
+}
+
+void SPI_GetByte(void)
+{
+  len = SPI_SLAVE_0.runtime->rx_data_count;
+  SPI_SLAVE_Receive(&SPI_SLAVE_0, &data[data_count++], 1);
+}
+
 int main(void)
 {
   DAVE_STATUS_t status;
@@ -42,6 +58,7 @@ int main(void)
   }
 
   UART_Transmit(&UART_0, (uint8_t*)msg, strlen(msg));
+  SPI_SLAVE_Receive(&SPI_SLAVE_0, data, 1);
 
   /* Placeholder for user application code. The while loop below can be replaced with user application code. */
   while(1U)
