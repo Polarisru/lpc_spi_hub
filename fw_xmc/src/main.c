@@ -1,15 +1,4 @@
-/*
- * main.c
- *
- *  Created on: 2022 Nov 20 19:19:00
- *  Author: Alex
- */
-
-
-
-
-#include "DAVE.h"                 //Declarations from DAVE Code Generation (includes SFR declaration)
-#include <stdio.h>
+#include "defines.h"
 
 /**
 
