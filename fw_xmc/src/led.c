@@ -2,8 +2,8 @@
 #include "pins.h"
 
 typedef struct {
-	uint32_t port : 8;			/* Pin port */
-	uint32_t pin : 8;			/* Pin number */
+	XMC_GPIO_PORT_t *const  port;	/* Pin port */
+	uint8_t pin;					/* Pin number */
 } LED_T;
 
 static const LED_T LEDS[LED_LAST] = {
@@ -16,7 +16,7 @@ static const LED_T LEDS[LED_LAST] = {
 void LED_Init(void)
 {
 	for (int i = 0; i < LED_LAST; i++) {
-		//Chip_GPIO_SetPinDIROutput(LPC_GPIO, LEDS[i].port, LEDS[i].pin);
+		XMC_GPIO_SetMode(LEDS[i].port, LEDS[i].pin, XMC_GPIO_MODE_OUTPUT_PUSH_PULL);
 	}
 }
 
@@ -26,7 +26,11 @@ void LED_Set(uint8_t number, bool on)
 	if (number >= LED_LAST) {
 		return;
 	}
-	//Chip_GPIO_SetPinState(LPC_GPIO, LEDS[number].port, LEDS[number].pin, on);
+	if (on == true) {
+		XMC_GPIO_SetOutputHigh(LEDS[number].port, LEDS[number].pin);
+	} else {
+		XMC_GPIO_SetOutputLow(LEDS[number].port, LEDS[number].pin);
+	}
 }
 
 /* Returns the current state of a board LED */
@@ -44,6 +48,6 @@ void LED_Toggle(uint8_t number)
 	if (number >= LED_LAST) {
 		return;
 	}
-	//Chip_GPIO_SetPinToggle(LPC_GPIO, LEDS[number].port, LEDS[number].pin);
+	XMC_GPIO_ToggleOutput(LEDS[number].port, LEDS[number].pin);
 }
 
