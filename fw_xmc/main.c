@@ -1,4 +1,8 @@
 #include "defines.h"
+#include "st7066u.h"
+#include "outputs.h"
+#include "timer.h"
+#include "led.h"
 
 /**
 
@@ -46,17 +50,30 @@ int main(void)
     }
   }
 
-  UART_Transmit(&UART_0, (uint8_t*)msg, strlen(msg));
-  SPI_SLAVE_Receive(&SPI_SLAVE_0, data, 1);
+  //UART_Transmit(&UART_0, (uint8_t*)msg, strlen(msg));
+  //SPI_SLAVE_Receive(&SPI_SLAVE_0, data, 1);
+
+  TIMER_Init();
+  OUTPUTS_Init();
+  LED_Init();
+
+  ST7066U_Init(4, 20);
+  ST7066U_WriteLine("Hello, world #1!", 0);
+  ST7066U_WriteLine("Hello, world #2!", 2);
+  TIMER_WaitMs(1000);
 
   /* Placeholder for user application code. The while loop below can be replaced with user application code. */
   while(1U)
   {
-	  if (SYSTIMER_GetTickCount() > ticks)
-	  {
-		  ticks += 1000;
-		  sprintf(str, "%d\n", ticks);
-		  UART_Transmit(&UART_0, (uint8_t*)str, strlen(str));
-	  }
+//	  if (SYSTIMER_GetTickCount() > ticks)
+//	  {
+//		  ticks += 1000;
+//		  sprintf(str, "%d\n", ticks);
+//		  UART_Transmit(&UART_0, (uint8_t*)str, strlen(str));
+//	  }
+	LED_Set(LED_BOARD, true);
+	TIMER_WaitMs(500);
+	LED_Set(LED_BOARD, false);
+	TIMER_WaitMs(500);
   }
 }

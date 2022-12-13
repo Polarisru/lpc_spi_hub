@@ -22,6 +22,7 @@ void OUTPUTS_Init(void)
 {
 	for (int i = 0; i < OUTPUTS_LAST; i++) {
 		XMC_GPIO_SetMode(OUTS[i].port, OUTS[i].pin, XMC_GPIO_MODE_OUTPUT_PUSH_PULL);
+		XMC_GPIO_SetOutputLow(OUTS[i].port, OUTS[i].pin);
 	}
 }
 

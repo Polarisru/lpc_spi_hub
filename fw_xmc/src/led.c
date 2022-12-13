@@ -9,7 +9,7 @@ typedef struct {
 static const LED_T LEDS[LED_LAST] = {
 	{LED_BOARD_PORT, LED_BOARD_PIN},
 	{LED_STAT0_PORT, LED_STAT0_PIN},
-	{LED_STAT1_PORT, LED_STAT1_PIN}
+	//{LED_STAT1_PORT, LED_STAT1_PIN}
 };
 
 /* Initializes board LED(s) */

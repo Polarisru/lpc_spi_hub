@@ -37,16 +37,6 @@
                 <Type>C File</Type>
             </Source_File>
             <Source_File>
-                <File_Name>digital_io.c</File_Name>
-                <Path>\Dave\Generated\DIGITAL_IO\digital_io.c</Path>
-                <Type>C File</Type>
-            </Source_File>
-            <Source_File>
-                <File_Name>digital_io_conf.c</File_Name>
-                <Path>\Dave\Generated\DIGITAL_IO\digital_io_conf.c</Path>
-                <Type>C File</Type>
-            </Source_File>
-            <Source_File>
                 <File_Name>spi_slave.c</File_Name>
                 <Path>\Dave\Generated\SPI_SLAVE\spi_slave.c</Path>
                 <Type>C File</Type>
@@ -116,21 +106,6 @@
             <Header_File>
                 <File_Name>DAVE_Common.h</File_Name>
                 <Path>\Dave\Generated\DAVE_Common.h</Path>
-                <Type>H File</Type>
-            </Header_File>
-            <Header_File>
-                <File_Name>digital_io.h</File_Name>
-                <Path>\Dave\Generated\DIGITAL_IO\digital_io.h</Path>
-                <Type>H File</Type>
-            </Header_File>
-            <Header_File>
-                <File_Name>digital_io_conf.h</File_Name>
-                <Path>\Dave\Generated\DIGITAL_IO\digital_io_conf.h</Path>
-                <Type>H File</Type>
-            </Header_File>
-            <Header_File>
-                <File_Name>digital_io_extern.h</File_Name>
-                <Path>\Dave\Generated\DIGITAL_IO\digital_io_extern.h</Path>
                 <Type>H File</Type>
             </Header_File>
             <Header_File>
